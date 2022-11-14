@@ -17,11 +17,6 @@ public class DBConnectionUtil {
 
     public static Connection getConnection() {
 
-//            try {
-//                Class.forName("oracle.jdbc.driver.OracleDriver");
-//            } catch(Exception e) {
-//                e.printStackTrace();
-//        }
         try {
             // Load the Oracle JDBC driver
             // Note that the path could change for new drivers
@@ -30,7 +25,6 @@ public class DBConnectionUtil {
             System.out.println(EXCEPTION_TAG + " " + e.getMessage());
         }
         try {
-            //  Class.forName("oracle.jdbc.OracleDriver");
             Connection connection = DriverManager.getConnection(ORACLE_URL, USER_NAME, PASSWORD);
             connection.setAutoCommit(false);
             log.info("get connection={}. class={}", connection, connection.getClass());
