@@ -77,7 +77,6 @@ public class CountriesRepositoryV0 {
             System.out.println(rs);
             if (rs.next()) {
                 Countries countries = new Countries();
-                System.out.println(rs.getString("country_name"));
                 countries.setCountryName(rs.getString("country_name"));
                 return countries;
             } else {

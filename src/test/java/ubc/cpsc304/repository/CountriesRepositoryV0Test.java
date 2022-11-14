@@ -9,7 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.sql.SQLException;
 
 @Slf4j
-public class CountriesRepositoryV0Test {
+class CountriesRepositoryV0Test {
     CountriesRepositoryV0 repository = new CountriesRepositoryV0();
     private Countries countries;
 
