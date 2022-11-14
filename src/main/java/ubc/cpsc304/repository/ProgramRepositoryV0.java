@@ -19,10 +19,10 @@ public class ProgramRepositoryV0 {
         try {
             con = getConnection();
             pstmt = con.prepareStatement(sql);
-            pstmt.setInt(1, ProgramInfo.getId());
-            pstmt.setInt(2, ProgramInfo.getVisitorCenterId());
-            pstmt.setString(3, ProgramInfo.getProgramName());
-            pstmt.setInt(4, ProgramInfo.getCapacity());
+            pstmt.setInt(1, programInfo.getId());
+            pstmt.setInt(2, programInfo.getVisitorCenterId());
+            pstmt.setString(3, programInfo.getProgramName());
+            pstmt.setInt(4, programInfo.getCapacity());
             pstmt.executeUpdate();
             return programInfo;
         } catch (SQLException e){
@@ -39,7 +39,7 @@ public class ProgramRepositoryV0 {
             try {
                 rs.close();
             } catch (SQLException e) {
-                log.inf("error", e);
+                log.info("error", e);
             }
         }
         if (stmt != null) {
