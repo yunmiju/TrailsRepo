@@ -41,8 +41,7 @@ out/
 .vscode/
 
 ## oracle connect info
-src/main/java/ubc/cpsc304/database/ConnectionConst.java
-src/main/resources/application.properties
+
 
 ### TEMP
 application.yml
