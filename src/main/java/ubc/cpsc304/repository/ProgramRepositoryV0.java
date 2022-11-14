@@ -1,7 +1,7 @@
 package ubc.cpsc304.repository;
 
 import ubc.cpsc304.database.DBConnectionUtil;
-import ubc.cpsc304.model.ProgramInfo;
+import ubc.cpsc304.domain.ProgramInfo;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.*;
@@ -11,7 +11,9 @@ public class ProgramRepositoryV0 {
 
     public ProgramInfo save(ProgramInfo programInfo) throws SQLException {
         String sql;
-        sql = "insert into Program_info(id, visitor_center_id, program_name, capacity) values (?, ?, ?, ?)";
+        sql = "insert into Program_info " +
+                "(id, visitor_center_id, program_name, capacity) " +
+                "values (?, ?, ?, ?)";
 
         Connection con = null;
         PreparedStatement pstmt = null;
@@ -35,6 +37,7 @@ public class ProgramRepositoryV0 {
     }
 
     private void close(Connection con, Statement stmt, ResultSet rs) {
+<<<<<<< HEAD
         if (rs != null) {
             try {
                 rs.close();
@@ -57,9 +60,13 @@ public class ProgramRepositoryV0 {
                 log.info("error", e);
             }
         }
+=======
+        CountriesRepositoryV0.connectionHandler(con, stmt, rs, log);
+>>>>>>> main
     }
 
     private Connection getConnection() {
+
         return DBConnectionUtil.getConnection();
     }
 }

@@ -1,4 +1,4 @@
-package ubc.cpsc304.model;
+package ubc.cpsc304.domain;
 import lombok.Data;
 
 @Data
