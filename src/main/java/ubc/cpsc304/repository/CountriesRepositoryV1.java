@@ -1,19 +1,18 @@
 package ubc.cpsc304.repository;
 
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import ubc.cpsc304.database.DBConnectionUtil;
 import ubc.cpsc304.domain.Countries;
-import lombok.extern.slf4j.Slf4j;
-
-import java.util.HashSet;
-import java.util.NoSuchElementException;
 
 import java.sql.*;
+import java.util.HashSet;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 
 @Slf4j
-public class CountriesRepositoryV0 {
+public class CountriesRepositoryV1 {
 
     public Countries save(Countries countries) throws SQLException {
         String sql;

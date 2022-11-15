@@ -1,16 +1,15 @@
 package ubc.cpsc304.repository;
-import org.junit.jupiter.api.Test;
-import ubc.cpsc304.domain.Countries;
+
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
+import ubc.cpsc304.domain.Countries;
+
+import java.sql.SQLException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.sql.SQLException;
-import java.util.Set;
-
 @Slf4j
-class CountriesRepositoryV0Test {
+class CountriesRepositoryV1Test {
     CountriesRepositoryV0 repository = new CountriesRepositoryV0();
     private Countries countries;
 
@@ -25,6 +24,7 @@ class CountriesRepositoryV0Test {
         log.info("find = {}", target);
         assertThat(target).isEqualTo(country);
         assertThat(target).isNotNull();
+
         //find All
 //        Set<String> countries = repository.findAll();
 //        assertThat(countries).isNotNull();
