@@ -1,4 +1,4 @@
-package ubc.cpsc304.config;//package ubc.cpsc304.config;
+// package ubc.cpsc304.config;//package ubc.cpsc304.config;
 //
 //import lombok.RequiredArgsConstructor;
 //import org.springframework.context.annotation.Configuration;

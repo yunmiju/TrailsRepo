@@ -20,9 +20,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 class ProgramRepositoryTest {
 
-@Autowired
+  @Autowired
   ProgramRepository programRepository;
-
 
   @Test
   void save() {

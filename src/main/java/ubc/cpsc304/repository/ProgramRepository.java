@@ -12,7 +12,7 @@ public interface ProgramRepository {
 
   List<Program> findAll();
 
-  List<Program> findByParkId(int parkId);
+  List<Program> findByParkId(long parkId);
 
-  ProgramInfo findById(int id);
+  Optional<ProgramInfo> findById(int id);
 }

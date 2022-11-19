@@ -1,9 +1,12 @@
 package ubc.cpsc304.domain;
 
+import javax.persistence.*;
 import lombok.Data;
 
 @Data
+@Entity
 public class Program {
+  @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
   private String name;
   private int capacity;

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin(origins = "http://localhost:8080")
 @Controller
 @RequestMapping("/programs")
 @RequiredArgsConstructor
@@ -17,12 +17,21 @@ public class ProgramController {
 
     private final ProgramService programService;
 
-    @GetMapping("/{id}")
-    public List<Program> programs(@PathVariable int parkId, Model model) {
+  @GetMapping
+  public String listProgram(Model model) {
+    model.addAttribute("programs", programService.findAll());
+    // is Empty?
+    return "programs";
+  }
+
+    @GetMapping("/{parkId}")
+    public String programs(@PathVariable long parkId, Model model) {
       List<Program> programs = programService.findByParkId(parkId);
+      model.addAttribute("programs", programs);
         // is Empty?
-        return programs;
+        return "programs";
     }
+
 
     
 }
