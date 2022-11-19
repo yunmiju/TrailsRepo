@@ -65,7 +65,7 @@ public class ProgramRepositoryV1 {
                 int visitorCenterId = rs.getInt("visitor_center_id");
                 String programName = rs.getString("program_name");
                 int capacity = rs.getInt("capacity");
-                ProgramInfo program = new ProgramInfo(programId, visitorCenterId, programName, capacity)
+                ProgramInfo program = new ProgramInfo(programId, visitorCenterId, programName, capacity);
                 programNames.add(programName);
                 System.out.println("program_name= " + programName);
             }
@@ -113,41 +113,6 @@ public class ProgramRepositoryV1 {
         }
     }
 
-    public ProgramInfo findByParkId(int parkId) throws SQLException {
-        String sql;
-        //sql = "select * from countries where VISITOR_CENTER_ID=visitorCenterId";
-        sql = "select * from PROGRAM_INFO JOIN VISITOR_CENTERS" +
-                "ON PROGRAM_INFO.VISITOR_CENTER_ID = VISITOR_CENTERS.ID" +
-                "WHERE VISITOR_CENTERS.PARK_ID =?";
-        Connection con = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        try {
-            con = getConnection();
-            pstmt = con.prepareStatement(sql);
-            pstmt.setInt(1, parkId);
-            rs = pstmt.executeQuery();
-            System.out.println(rs);
-            if (rs.next()) {
-                ProgramInfo target = new ProgramInfo();
-                int id = rs.getInt("ID");
-                String programName = rs.getString("program_name").trim();
-                int capacity = rs.getInt("CAPACITY");
-                target.setVisitorCenterId(visitorCenterId);
-                target.setId(id);
-                target.setCapacity(capacity | 10);
-                return target;
-            } else {
-                throw new NoSuchElementException("program not found visitor_Center_Id= " + visitorCenterId);
-            }
-
-        } catch (SQLException e) {
-            log.error("db error", e);
-            throw e;
-        } finally {
-            close(con, pstmt, rs);
-        }
-    }
     private void close(Connection con, Statement stmt, ResultSet rs) {
         JdbcUtils.closeResultSet(rs);
         JdbcUtils.closeStatement(stmt);
