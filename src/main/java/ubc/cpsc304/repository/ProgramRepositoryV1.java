@@ -10,11 +10,11 @@ import java.util.*;
 
 
 @Slf4j
-public class ProgramInfoRepositoryV1 {
+public class ProgramRepositoryV1 {
 
     private final DataSource dataSource;
 
-    public ProgramInfoRepositoryV1(DataSource dataSource) {
+    public ProgramRepositoryV1(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
@@ -57,29 +57,24 @@ public class ProgramInfoRepositoryV1 {
             con = getConnection();
             pstmt = con.prepareStatement(sql);
             rs = pstmt.executeQuery();
-
-            if (rs.next()) {
-                Map<Integer, String> programs = new HashMap<>();
-                Set<ProgramInfo> programsSet = new HashSet<ProgramInfo> ();
-                Set<String> programNames = new HashSet<String> ();
-                while (rs.next()) {
-                    String programName = rs.getString("program_name");
-                    System.out.println("country_name= " + programName);
-                    programNames.add(programName);
-                }
-                return programNames;
-            } else {
-                throw new NoSuchElementException("countries not found");
+            Map<Integer, String> programs = new HashMap<>();
+            Set<ProgramInfo> programsSet = new HashSet<ProgramInfo>();
+            Set<String> programNames = new HashSet<String>();
+            while (rs.next()) {
+                int programId = rs.getInt("id");
+                int visitorCenterId = rs.getInt("visitor_center_id");
+                String programName = rs.getString("program_name");
+                int capacity = rs.getInt("capacity");
+                ProgramInfo program = new ProgramInfo(programId, visitorCenterId, programName, capacity)
+                programNames.add(programName);
+                System.out.println("program_name= " + programName);
             }
+            return programNames;
         } catch (SQLException e) {
             log.error("db error", e);
             throw e;
         } finally {
-            if(pstmt != null) try{ pstmt.close();} catch(SQLException e){};
-
-            if(rs != null) try{ rs.close();} catch(SQLException e){};
-
-            if(con != null) try{ con.close();} catch(SQLException e){};
+            close(con, pstmt, rs);
         }
     }
 
@@ -114,10 +109,45 @@ public class ProgramInfoRepositoryV1 {
             log.error("db error", e);
             throw e;
         } finally {
-            close(con, pstmt, null);
+            close(con, pstmt, rs);
         }
     }
 
+    public ProgramInfo findByParkId(int parkId) throws SQLException {
+        String sql;
+        //sql = "select * from countries where VISITOR_CENTER_ID=visitorCenterId";
+        sql = "select * from PROGRAM_INFO JOIN VISITOR_CENTERS" +
+                "ON PROGRAM_INFO.VISITOR_CENTER_ID = VISITOR_CENTERS.ID" +
+                "WHERE VISITOR_CENTERS.PARK_ID =?";
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            con = getConnection();
+            pstmt = con.prepareStatement(sql);
+            pstmt.setInt(1, parkId);
+            rs = pstmt.executeQuery();
+            System.out.println(rs);
+            if (rs.next()) {
+                ProgramInfo target = new ProgramInfo();
+                int id = rs.getInt("ID");
+                String programName = rs.getString("program_name").trim();
+                int capacity = rs.getInt("CAPACITY");
+                target.setVisitorCenterId(visitorCenterId);
+                target.setId(id);
+                target.setCapacity(capacity | 10);
+                return target;
+            } else {
+                throw new NoSuchElementException("program not found visitor_Center_Id= " + visitorCenterId);
+            }
+
+        } catch (SQLException e) {
+            log.error("db error", e);
+            throw e;
+        } finally {
+            close(con, pstmt, rs);
+        }
+    }
     private void close(Connection con, Statement stmt, ResultSet rs) {
         JdbcUtils.closeResultSet(rs);
         JdbcUtils.closeStatement(stmt);
@@ -126,7 +156,7 @@ public class ProgramInfoRepositoryV1 {
 
     private Connection getConnection() throws SQLException {
         Connection con = dataSource.getConnection();
-        log.info("get connection={}, class={}", con, con.getClass());
+        // log.info("get connection={}, class={}", con, con.getClass());
         return con;
     }
 }

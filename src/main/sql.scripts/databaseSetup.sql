@@ -1,13 +1,13 @@
 create TABLE Countries
 (
-    country_name CHAR(50) PRIMARY KEY
+    country_name VARCHAR2(50) PRIMARY KEY
 );
 
 create TABLE Provinces
 (
     id            INT PRIMARY KEY,
-    province_name CHAR(50) NOT NULL,
-    country_name  CHAR(50) NOT NULL,
+    province_name VARCHAR2(50) NOT NULL,
+    country_name  VARCHAR2(50) NOT NULL,
     FOREIGN KEY (country_name)
         references Countries (country_name)
             ON delete CASCADE
@@ -17,10 +17,10 @@ create TABLE Parks
 (
     id           INT PRIMARY KEY,
     province_id  INT NOT NULL,
-    park_name    CHAR(100) NOT NULL,
-    park_address CHAR(200),
-    open_hour    CHAR(50),
-    close_hour   CHAR(50),
+    park_name    VARCHAR2(100) NOT NULL,
+    park_address VARCHAR2(200),
+    open_hour    VARCHAR2(50),
+    close_hour   VARCHAR2(50),
     FOREIGN KEY (province_id)
         references Provinces (id)
             ON delete CASCADE
@@ -39,7 +39,7 @@ create TABLE Restricted_parks
 (
     id             INT PRIMARY KEY,
     daily_capacity INT,
-    permit_type    CHAR(10),
+    permit_type    VARCHAR2(10),
     FOREIGN KEY (id)
         references Parks (id)
             ON delete CASCADE
@@ -47,16 +47,16 @@ create TABLE Restricted_parks
 
 create TABLE Seasons
 (
-    season_name CHAR(30) PRIMARY KEY
+    season_name VARCHAR2(30) PRIMARY KEY
 );
 
 create TABLE Visitor_centers
 (
     id             INT PRIMARY KEY,
     park_id        INT NOT NULL UNIQUE,
-    center_name    CHAR(200),
-    email          CHAR(100),
-    center_address CHAR(200),
+    center_name    VARCHAR2(200),
+    email          VARCHAR2(100),
+    center_address VARCHAR2(200),
     FOREIGN KEY (park_id)
         references Parks (id)
             ON delete CASCADE
@@ -65,18 +65,18 @@ create TABLE Visitor_centers
 create TABLE Trail_level
 (
     distance   FLOAT,
-    difficulty CHAR(50),
+    difficulty VARCHAR2(50),
     duration   float,
     PRIMARY KEY (distance, difficulty)
 );
 
 create TABLE Trail_info
 (
-    trail_name        CHAR(200),
+    trail_name        VARCHAR2(200),
     park_id           INT,
-    difficulty        CHAR(50),
+    difficulty        VARCHAR2(50),
     distance          FLOAT NOT NULL,
-    trail_description CHAR(300),
+    trail_description VARCHAR2(300),
     PRIMARY KEY (trail_name, park_id, difficulty),
     FOREIGN KEY (park_id)
         references Parks (id)
@@ -88,10 +88,10 @@ create TABLE Trail_info
 
 create TABLE Trail_Image
 (
-    trail_name CHAR(200),
+    trail_name VARCHAR2(200),
     park_id    INT,
-    difficulty CHAR(50),
-    image_url   CHAR(200),
+    difficulty VARCHAR2(50),
+    image_url   VARCHAR2(200),
     PRIMARY KEY (trail_name, park_id, difficulty, image_url),
     FOREIGN KEY (trail_name, park_id, difficulty) REFERENCES Trail_info (trail_name, park_id, difficulty)
         ON delete CASCADE
@@ -100,9 +100,9 @@ create TABLE Trail_Image
 create TABLE Huts
 (
     id         INT PRIMARY KEY,
-    trail_name CHAR(200) NOT NULL,
+    trail_name VARCHAR2(200) NOT NULL,
     park_id    INT       NOT NULL,
-    difficulty CHAR(50) NOT NULL,
+    difficulty VARCHAR2(50) NOT NULL,
     beds       INT,
     FOREIGN KEY (trail_name, park_id, difficulty)
         references trail_info (trail_name, park_id, difficulty)
@@ -114,10 +114,10 @@ create TABLE Huts
 
 create TABLE Trail_season
 (
-    trail_name  CHAR(200),
-    season_name CHAR(30),
+    trail_name  VARCHAR2(200),
+    season_name VARCHAR2(30),
     park_id     INT,
-    difficulty  CHAR(50),
+    difficulty  VARCHAR2(50),
     PRIMARY KEY (trail_name, park_id, difficulty, season_name),
     FOREIGN KEY (trail_name, park_id, difficulty)
         references Trail_info (trail_name, park_id, difficulty)
@@ -130,15 +130,17 @@ create TABLE Trail_season
 create TABLE Managers
 (
     id           INT PRIMARY KEY,
-    manager_name CHAR(100)
+    manager_name VARCHAR2(100)
 );
 
 create TABLE Program_info
 (
     id                INT       PRIMARY KEY,
     visitor_center_id INT       NOT NULL,
-    program_name      CHAR(200) NOT NULL,
+    program_name      VARCHAR2(200) NOT NULL,
     capacity          INT       DEFAULT 10,
+    description       VARCHAR2(4000),
+    program_image     VARCHAR2(1000),
     FOREIGN KEY (visitor_center_id) references Visitor_centers (id)
         ON delete CASCADE
 );
@@ -156,7 +158,25 @@ create TABLE Program_manager
             ON delete CASCADE
 );
 
+create table program_reservation (
+    id INT PRIMARY KEY,
+    reservation_number varchar2(100) NOT NULL UNIQUE,
+    program_id Number NOT NULL,
+    email varchar2(100) NOT NULL,
+    ppl INTEGER DEFAULT 1,
+    FOREIGN KEY (program_id) REFERENCES program_info (id) ON DELETE CASCADE
+);
 
+CREATE SEQUENCE program_reservation_seq;
+
+CREATE OR REPLACE TRIGGER program_reservation_TRG
+    BEFORE INSERT ON program_reservation
+    FOR EACH ROW
+BEGIN
+    SELECT program_reservation_seq.NEXTVAL
+    INTO   :new.id
+    FROM   dual;
+END;
 
 insert all
     into Countries(Country_name)

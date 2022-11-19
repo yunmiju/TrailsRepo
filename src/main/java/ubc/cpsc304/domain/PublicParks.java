@@ -2,7 +2,7 @@ package ubc.cpsc304.domain;
 import lombok.Data;
 
 
-public class PublicParks extends Parks {
+public class  PublicParks extends Parks {
     private boolean hasCampingSite;
 
     public PublicParks() {

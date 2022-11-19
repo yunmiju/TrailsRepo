@@ -20,7 +20,7 @@ public class DBConnectionUtil {
         try {
             // Load the Oracle JDBC driver
             // Note that the path could change for new drivers
-            DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
+            DriverManager.registerDriver(new oracle.jdbc.OracleDriver());
         } catch (SQLException e) {
             System.out.println(EXCEPTION_TAG + " " + e.getMessage());
         }

@@ -17,9 +17,7 @@ public class ConnectionTest {
     @Test
     void driverManager() throws SQLException {
         Connection  con1 = DriverManager.getConnection(ORACLE_URL, USER_NAME, PASSWORD);
-        Connection  con2 = DriverManager.getConnection(ORACLE_URL, USER_NAME, PASSWORD);
         log.info("connection={}, class={}", con1, con1.getClass());
-        log.info("connection={}, class={}", con2, con2.getClass());
     }
 
     @Test
@@ -36,7 +34,7 @@ public class ConnectionTest {
         dataSource.setJdbcUrl(ORACLE_URL);
         dataSource.setUsername(USER_NAME);
         dataSource.setPassword(PASSWORD);
-        dataSource.setMaximumPoolSize(10);
+        dataSource.setMaximumPoolSize(3);
         dataSource.setPoolName("MyPool");
 
         useDataSource(dataSource);
@@ -45,8 +43,6 @@ public class ConnectionTest {
 
     private void useDataSource(DataSource dataSource) throws SQLException {
         Connection con1 = dataSource.getConnection();
-        Connection con2 = dataSource.getConnection();
         log.info("connection={}, class={}", con1, con1.getClass());
-        log.info("connection={}, class={}", con2, con2.getClass());
     }
 }
