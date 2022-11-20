@@ -1,30 +1,23 @@
 package ubc.cpsc304.domain;
-import lombok.Data;
 
-public class RestrictedPark extends Parks{
+public class RestrictedPark extends Parks {
 
-    private int dailyCapacity;
-    private String permitType;
-
-    public RestrictedPark() {
-
+    public RestrictedPark(int id) {
+        this.id = id;
     }
 
-    public RestrictedPark(int id, int provinceId, String parkName, String parkAddress, String openHour, String closeHour, int dailyCapacity, String permitType) {
-        super(id, provinceId, parkName, parkAddress, openHour, closeHour);
+    public RestrictedPark(int id, int dailyCapacity, String permitType) {
+        this.id = id;
         this.dailyCapacity = dailyCapacity;
         this.permitType = permitType;
     }
 
-    public int getDailyCapacity(int dailyCapacity) {
-        return this.dailyCapacity;
+    public void setDailyCapacity(int dailyCapacity) {
+        this.dailyCapacity = dailyCapacity;
     }
 
-    public String getPermitType() {
-        return permitType;
+    public void setPermitType(String permitType) {
+        this.permitType = permitType;
     }
 
-    public int getDailyCapacity() {
-        return this.dailyCapacity;
-    }
 }

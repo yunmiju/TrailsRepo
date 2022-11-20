@@ -10,6 +10,10 @@ public class Provinces {
 
     }
 
+    public Provinces(int id) {
+        this.id = id;
+    }
+
     public Provinces(int id, String provinceName, String countryName) {
         this.id = id;
         this.provinceName = provinceName;

@@ -1,13 +1,13 @@
 create TABLE Countries
 (
-    country_name CHAR(50) PRIMARY KEY
+    country_name VARCHAR2(50) PRIMARY KEY
 );
 
 create TABLE Provinces
 (
     id            INT PRIMARY KEY,
-    province_name CHAR(50) NOT NULL,
-    country_name  CHAR(50) NOT NULL,
+    province_name VARCHAR2(50) NOT NULL,
+    country_name  VARCHAR2(50) NOT NULL,
     FOREIGN KEY (country_name)
         references Countries (country_name)
             ON delete CASCADE
@@ -17,16 +17,16 @@ create TABLE Parks
 (
     id           INT PRIMARY KEY,
     province_id  INT NOT NULL,
-    park_name    CHAR(100) NOT NULL,
-    park_address CHAR(200),
-    open_hour    CHAR(50),
-    close_hour   CHAR(50),
+    park_name    VARCHAR2(100) NOT NULL,
+    park_address VARCHAR2(200),
+    open_hour    VARCHAR2(50),
+    close_hour   VARCHAR2(50),
     FOREIGN KEY (province_id)
         references Provinces (id)
             ON delete CASCADE
 );
 
-create TABLE Public_parks
+create TABLE Public_park
 (
     id           INT PRIMARY KEY,
     camping_site NUMBER(1) DEFAULT 0,
@@ -35,11 +35,11 @@ create TABLE Public_parks
             ON delete CASCADE
 );
 
-create TABLE Restricted_parks
+create TABLE Restricted_Park
 (
     id             INT PRIMARY KEY,
     daily_capacity INT,
-    permit_type    CHAR(10),
+    permit_type    VARCHAR2(10),
     FOREIGN KEY (id)
         references Parks (id)
             ON delete CASCADE
@@ -47,16 +47,16 @@ create TABLE Restricted_parks
 
 create TABLE Seasons
 (
-    season_name CHAR(30) PRIMARY KEY
+    season_name VARCHAR2(30) PRIMARY KEY
 );
 
 create TABLE Visitor_centers
 (
     id             INT PRIMARY KEY,
     park_id        INT NOT NULL UNIQUE,
-    center_name    CHAR(200),
-    email          CHAR(100),
-    center_address CHAR(200),
+    center_name    VARCHAR2(200),
+    email          VARCHAR2(100),
+    center_address VARCHAR2(200),
     FOREIGN KEY (park_id)
         references Parks (id)
             ON delete CASCADE
@@ -65,18 +65,18 @@ create TABLE Visitor_centers
 create TABLE Trail_level
 (
     distance   FLOAT,
-    difficulty CHAR(50),
+    difficulty VARCHAR2(50),
     duration   float,
     PRIMARY KEY (distance, difficulty)
 );
 
 create TABLE Trail_info
 (
-    trail_name        CHAR(200),
+    trail_name        VARCHAR2(200),
     park_id           INT,
-    difficulty        CHAR(50),
+    difficulty        VARCHAR2(50),
     distance          FLOAT NOT NULL,
-    trail_description CHAR(300),
+    trail_description VARCHAR2(300),
     PRIMARY KEY (trail_name, park_id, difficulty),
     FOREIGN KEY (park_id)
         references Parks (id)
@@ -88,10 +88,10 @@ create TABLE Trail_info
 
 create TABLE Trail_Image
 (
-    trail_name CHAR(200),
+    trail_name VARCHAR2(200),
     park_id    INT,
-    difficulty CHAR(50),
-    image_url   CHAR(200),
+    difficulty VARCHAR2(50),
+    image_url   VARCHAR2(200),
     PRIMARY KEY (trail_name, park_id, difficulty, image_url),
     FOREIGN KEY (trail_name, park_id, difficulty) REFERENCES Trail_info (trail_name, park_id, difficulty)
         ON delete CASCADE
@@ -100,9 +100,9 @@ create TABLE Trail_Image
 create TABLE Huts
 (
     id         INT PRIMARY KEY,
-    trail_name CHAR(200) NOT NULL,
+    trail_name VARCHAR2(200) NOT NULL,
     park_id    INT       NOT NULL,
-    difficulty CHAR(50) NOT NULL,
+    difficulty VARCHAR2(50) NOT NULL,
     beds       INT,
     FOREIGN KEY (trail_name, park_id, difficulty)
         references trail_info (trail_name, park_id, difficulty)
@@ -114,10 +114,10 @@ create TABLE Huts
 
 create TABLE Trail_season
 (
-    trail_name  CHAR(200),
-    season_name CHAR(30),
+    trail_name  VARCHAR2(200),
+    season_name VARCHAR2(30),
     park_id     INT,
-    difficulty  CHAR(50),
+    difficulty  VARCHAR2(50),
     PRIMARY KEY (trail_name, park_id, difficulty, season_name),
     FOREIGN KEY (trail_name, park_id, difficulty)
         references Trail_info (trail_name, park_id, difficulty)
@@ -130,15 +130,17 @@ create TABLE Trail_season
 create TABLE Managers
 (
     id           INT PRIMARY KEY,
-    manager_name CHAR(100)
+    manager_name VARCHAR2(100)
 );
 
 create TABLE Program_info
 (
     id                INT       PRIMARY KEY,
     visitor_center_id INT       NOT NULL,
-    program_name      CHAR(200) NOT NULL,
+    program_name      VARCHAR2(200) NOT NULL,
     capacity          INT       DEFAULT 10,
+    description       VARCHAR2(4000),
+    program_image     VARCHAR2(1000),
     FOREIGN KEY (visitor_center_id) references Visitor_centers (id)
         ON delete CASCADE
 );
@@ -156,7 +158,14 @@ create TABLE Program_manager
             ON delete CASCADE
 );
 
-
+create table program_reservation (
+                                     id INT GENERATED AS IDENTITY PRIMARY KEY,
+                                     reservation_number varchar2(100) NOT NULL UNIQUE,
+                                     program_id Number NOT NULL,
+                                     email varchar2(100) NOT NULL,
+                                     ppl INTEGER DEFAULT 1,
+                                     FOREIGN KEY (program_id) REFERENCES program_info (id) ON DELETE CASCADE
+);
 
 insert all
     into Countries(Country_name)
@@ -212,30 +221,29 @@ select *
 from dual;
 
 insert all
-into Public_Parks(id, camping_site)
+    into Public_Park(id, camping_site)
 values (101, 1)
-into Public_Parks(id, camping_site)
+into Public_Park(id, camping_site)
 values (102, 1)
-into Public_Parks(id, camping_site)
+into Public_Park(id, camping_site)
 values (103, 1)
-into Public_Parks(id, camping_site)
+into Public_Park(id, camping_site)
 values (201, 0)
-into Public_Parks(id, camping_site) values (202, 0)
-into Public_Parks(id, camping_site) values (203, 1)
+into Public_Park(id, camping_site) values (202, 0)
 select *
 from dual;
 
 
 insert all
-    into Restricted_Parks(id, daily_capacity, permit_type)
+    into Restricted_Park(id, daily_capacity, permit_type)
 values (104, 80, 'A')
-into Restricted_Parks(id, daily_capacity, permit_type)
+into Restricted_Park(id, daily_capacity, permit_type)
 values (105, 120, 'A')
-into Restricted_Parks(id, daily_capacity, permit_type)
+into Restricted_Park(id, daily_capacity, permit_type)
 values (106, 60, 'B')
-into Restricted_Parks(id, daily_capacity, permit_type)
+into Restricted_Park(id, daily_capacity, permit_type)
 values (203, 80, 'B')
-into Restricted_Parks(id, daily_capacity, permit_type)
+into Restricted_Park(id, daily_capacity, permit_type)
 values (107, 100, 'A')
 select *
 from dual;
@@ -345,20 +353,44 @@ into Managers(id, manager_name)
 values (4, 'Jean')
 into Managers(id, manager_name)
 values (5, 'Jhon')
+into Managers(id, manager_name)
+values (6, 'William')
+into Managers(id, manager_name)
+values (7, 'Josh')
+into Managers(id, manager_name)
+values (8, 'Atom')
+into Managers(id, manager_name)
+values (9, 'Sophia')
 select *
 from dual;
 
 insert all
     into Program_info(id, visitor_center_id, program_name)
 values (1, 1001, 'Places of Wonder and Discovery')
-into Program_info(id, visitor_center_id, program_name)
-values (2, 1002, 'Kicking Horse')
+into Program_info(id, visitor_center_id, program_name, description, program_image)
+values (2, 1002, 'Horseback Riding', 'Miles of wooded hills, and there essentially are two ways to explore them: on foot or by horse. For families who prefer the latter choice, saddle up and follow rangers on 2.5-hour guided horseback tours from Skyland Stables in the center of the park', 'https://travel.home.sndimg.com/content/dam/images/travel/fullrights/2016/05/9/0/iStock_AppalachianViews_Shenandoah-National-Park.jpg.rend.hgtvcom.966.644.suffix/1491593672963.jpeg')
 into Program_info(id, visitor_center_id, program_name)
 values (3, 1004, 'Coastal Carnivores')
 into Program_info(id, visitor_center_id, program_name)
 values (4, 2001, 'Habitat Conservation')
 into Program_info(id, visitor_center_id, program_name)
 values (5, 2003, 'Junior Ranger Angler')
+into Program_info(id, visitor_center_id, program_name, description, program_image)
+values (6, 1002, 'Stargazing', 'Ever wondered what makes the Northern Lights so colorful and spectacular? Get a crash-course in astrophysics this summer During 2- and 3-night programs titled Curtains of Light, Neal Brown, space expert and acting director of the Alaska Space Grant Program, will explain the magnetic forces', 'https://travel.home.sndimg.com/content/dam/images/travel/fullrights/2016/05/9/0/iStock_andyKRAKOVSKI_Denali-National-Park-Northern-Lights.jpg.rend.hgtvcom.966.644.suffix/1491593672948.jpeg')
+into Program_info(id, visitor_center_id, program_name, description, program_image)
+values (7, 1002, 'Beetlemania" Lectures', 'Media outlets from all over the world have documented the alarming rate at which the mountain pine beetle has ravaged a majority of pine forests, but as part of this free family-friendly lecture series, rangers explain the situation in a way kids can understand. At least one interpreter dresses up in a full-body beetle costume; others lead the crowd in a sing-along to tunes from the Beatles (of course).', 'https://travel.home.sndimg.com/content/dam/images/travel/fullrights/2016/05/9/0/iStock_DavidParsons_Rocky-Mountain-National-Park-Beetle.jpg.rend.hgtvcom.966.725.suffix/1491593672990.jpeg')
+into Program_info(id, visitor_center_id, program_name, description, program_image)
+values (8, 1002, 'Cruise the Shoreline', 'With more shoreline than any other national park, Acadia is a perfect place to explore by boat. Park rangers offer a number of different boat cruises inside the park, but the most popular is the 3-hour "Dive-In Theater." On this tour of Frenchman Bay, families can look out for seals and porpoises, and watch in real-time (on video monitors) as a diver scours the ocean floor for marine life to bring back aboard the boat for further hands-on exploration.', 'https://travel.home.sndimg.com/content/dam/images/travel/fullrights/2016/05/9/0/iStock_AtlanticAdv_Pelagic-Bird-Acadia-National-Park.jpg.rend.hgtvcom.966.644.suffix/1491593672969.jpeg')
+into Program_info(id, visitor_center_id, program_name, description, program_image)
+values (9, 1002, 'Sing About Animals', 'Parents of young children (6 and under) often complain that family programs are too sophisticated for their tots. Classes themselves include a lot of singing. Also on the agenda: reading books, playing games and making crafts--all of which pertains to animals native to the park (such as hawks, bears and big horn sheep). All participating children must be accompanied by an adult', 'https://travel.home.sndimg.com/content/dam/images/travel/fullrights/2016/05/9/0/iStock_Bartfett_Yosemite-National-Park.jpg.rend.hgtvcom.966.644.suffix/1491593672975.jpeg')
+into Program_info(id, visitor_center_id, program_name, description, program_image)
+values (10, 1002, 'Rock-Climbing','Full-day classes are available from April through October in Curry Village or Tuolumne Meadows, while specialized programs like Girls on Granite cater to women looking to scramble and scale up the rocks.','https://travel.home.sndimg.com/content/dam/images/travel/fullrights/2016/01/14/national-park-activities/national-park-activities-rock-climbing.jpg.rend.hgtvcom.966.725.suffix/1491593018670.jpeg')
+into Program_info(id, visitor_center_id, program_name, description, program_image)
+values (11, 1001, 'Orienteering', 'Set off on a modern-day treasure hunt. Leave the GPS system at home for an orienteering adventure using just a map and compass to follow clues around one of the parks 30 courses. You can choose to set your own pace, whether it is a slowpoke family stroll while the kids master the compass or a competitive jaunt to race to the final clue.', 'https://travel.home.sndimg.com/content/dam/images/travel/fullrights/2016/01/14/national-park-activities/national-park-activities-orienteering.jpg.rend.hgtvcom.966.725.suffix/1491593018644.jpeg')
+into Program_info(id, visitor_center_id, program_name, description, program_image)
+values (12, 1001, 'Hiking: Great Smoky Mountains', 'Hikers can set off on a great adventure on foot any time of year.  With more than 800 miles of trails, there are plenty of options including scenic strolls through fields of wildflowers and strenuous climbs to the top of the parks glorious waterfalls.', 'https://travel.home.sndimg.com/content/dam/images/travel/fullrights/2016/01/14/national-park-activities/national-park-activities-hiking.jpg.rend.hgtvcom.966.725.suffix/1491593018613.jpeg')
+into Program_info(id, visitor_center_id, program_name, description, program_image)
+values (13, 1001, 'Wildlife Viewing', 'Enjoy a wild safari a bit closer to home. more than 60 types of mammals and 318 species of birds. Black bears and grizzlies make their home in forests while coyotes, gray wolves and bobcats frolic in the meadows. Bald eagles soar overhead and trumpeter swans make their nests alongside the rivers. Bring a pair of binoculars and a camera, and join a ranger tour to learn more about these fascinating residents.', 'https://travel.home.sndimg.com/content/dam/images/travel/fullrights/2016/01/14/national-park-activities/national-park-actvities-wildlife-viewing.jpg.rend.hgtvcom.966.725.suffix/1491593018717.jpeg')
 select *
 from dual;
 
@@ -373,5 +405,21 @@ into Program_Manager(program_id, manager_id)
 values (4, 4)
 into Program_Manager(program_id, manager_id)
 values (5, 5)
+into Program_Manager(program_id, manager_id)
+values (6, 6)
+into Program_Manager(program_id, manager_id)
+values (7, 7)
+into Program_Manager(program_id, manager_id)
+values (8, 8)
+into Program_Manager(program_id, manager_id)
+values (9, 9)
+into Program_Manager(program_id, manager_id)
+values (10, 6)
+into Program_Manager(program_id, manager_id)
+values (11, 7)
+into Program_Manager(program_id, manager_id)
+values (12, 8)
+into Program_Manager(program_id, manager_id)
+values (13, 9)
 select *
 from dual;
