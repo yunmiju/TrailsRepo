@@ -1,4 +1,4 @@
-package ubc.cpsc304.services;
+package ubc.cpsc304.service;
 import ubc.cpsc304.domain.ParkA;
 import ubc.cpsc304.repository.ParkRepositoryV1;
 import ubc.cpsc304.repository.PublicParkRepositoryV1;

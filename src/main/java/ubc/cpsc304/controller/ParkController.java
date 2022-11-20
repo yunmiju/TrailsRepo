@@ -1,10 +1,11 @@
 package ubc.cpsc304.controller;
 
 import lombok.RequiredArgsConstructor;
+import ubc.cpsc304.service.ParkService;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ubc.cpsc304.services.ParkService;
 
 import java.util.List;
 

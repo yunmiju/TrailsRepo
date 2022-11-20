@@ -4,7 +4,7 @@ server.port = 8080
 spring.mvc.view.prefix=/WEB-INF/views/
 spring.mvc.view.suffix=.jsp
 
-spring.profiles.active=local
+spring.profiles.active=test
 
 # Oracle DB Settings
 spring.datasource.driver-class-name=oracle.jdbc.OracleDriver
@@ -18,8 +18,11 @@ spring.jpa.hibernate.ddl-auto=update
 #jdbcTemplate sql log
 logging.level.org.springframework.jdbc=debug
 
+
 #MyBatis
+mybatis.type-aliases-package=hello.itemservice.domain
 mybatis.configuration.map-underscore-to-camel-case=true
+logging.level.hello.itemservice.repository.mybatis=trace
 
 # JPA settings
 #JPA log
@@ -33,8 +36,3 @@ spring.jpa.show-sql=true
 
 #HikariCP settings
 spring.datasource.hikari.maximumPoolSize=1
-spring.thymeleaf.enabled=false
-spring.thymeleaf.prefix=classpath:/templates/
-
-
-#Jackson

@@ -3,8 +3,9 @@ import com.zaxxer.hikari.HikariDataSource;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ubc.cpsc304.services.ParkService;
+
 import ubc.cpsc304.domain.ParkA;
+import ubc.cpsc304.service.ParkService;
 
 import java.sql.SQLException;
 import java.util.List;

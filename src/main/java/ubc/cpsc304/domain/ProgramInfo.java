@@ -16,24 +16,6 @@ public class ProgramInfo {
         this.id = id;
         this.visitorCenterId = visitorCenterId;
         this.programName = programName;
-        this.capacity = capacity;
+        this.capacity = capacity | 10;
     }
-
-
-    public int getId() {
-        return this.id;
-    }
-
-    public int getVisitorCenterId() {
-        return this.visitorCenterId;
-    }
-
-    public String getProgramName() {
-        return this.programName;
-    }
-
-    public int getCapacity() {
-        return this.capacity;
-    }
-
 }
