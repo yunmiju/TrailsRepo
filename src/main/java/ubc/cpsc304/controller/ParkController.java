@@ -8,16 +8,14 @@ import ubc.cpsc304.services.ParkService;
 
 import java.util.List;
 
-//@CrossOrigin(origins = "https://localhost:8080")
+@CrossOrigin(origins = "https://localhost:8080")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/parks")
+@RequestMapping(value = "/parks", method = RequestMethod.GET)
 public class ParkController {
     private final ParkService parkService;
 
-    //    @GetMapping("/parks")
-//    @RequestMapping(value = "/parks", method = RequestMethod.GET)
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "/park", method = RequestMethod.GET)
     public String listPark(Model model) {
         model.addAttribute("parks", parkService.getAllParks());
         // is Empty?

@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/")
 public class HomeController {
-
+    @RequestMapping("/")
     public String home() {
-//        return "works!";
-        return "redirect:parks";
+        return "works!";
+//        return "redirect:parks";
     }
 }
