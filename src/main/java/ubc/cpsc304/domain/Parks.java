@@ -2,7 +2,7 @@ package ubc.cpsc304.domain;
 import lombok.Data;
 
 @Data
-public class Park extends ParkA {
+public class Parks extends ParkA {
     protected int id;
     protected String parkName;
     protected int provinceId;
@@ -10,15 +10,15 @@ public class Park extends ParkA {
     protected String openHour;
     protected String closeHour;
 
-    public Park() {
+    public Parks() {
 
     }
 
-    public Park(int id) {
+    public Parks(int id) {
         this.id = id;
     }
 
-    public Park(int id, int provinceId, String parkName, String parkAddress, String openHour, String closeHour) {
+    public Parks(int id, int provinceId, String parkName, String parkAddress, String openHour, String closeHour) {
         this.id = id;
         this.provinceId = provinceId;
         this.parkName = parkName;

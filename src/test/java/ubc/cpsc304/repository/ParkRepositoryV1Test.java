@@ -3,7 +3,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ubc.cpsc304.domain.Park;
+import ubc.cpsc304.domain.Parks;
 import ubc.cpsc304.domain.ParkA;
 
 import java.sql.SQLException;
@@ -17,16 +17,16 @@ import static ubc.cpsc304.database.ConnectionConst.*;
 public class ParkRepositoryV1Test {
     ParkRepositoryV1 parkRepositoryV1;
 
-    @BeforeEach
-    void beforeEach(){
-        HikariDataSource dataSource = new HikariDataSource();
-        dataSource.setJdbcUrl(ORACLE_URL);
-        dataSource.setUsername(USER_NAME);
-        dataSource.setPassword(PASSWORD);
-        dataSource.setMaximumPoolSize(10);
-        dataSource.setPoolName("MyPool");
-        parkRepositoryV1 = new ParkRepositoryV1(dataSource);
-    }
+//    @BeforeEach
+//    void beforeEach(){
+//        HikariDataSource dataSource = new HikariDataSource();
+//        dataSource.setJdbcUrl(ORACLE_URL);
+//        dataSource.setUsername(USER_NAME);
+//        dataSource.setPassword(PASSWORD);
+//        dataSource.setMaximumPoolSize(10);
+//        dataSource.setPoolName("MyPool");
+//        parkRepositoryV1 = new ParkRepositoryV1(dataSource);
+//    }
 
 //    @Test
 //    void curdAdd() throws SQLException {

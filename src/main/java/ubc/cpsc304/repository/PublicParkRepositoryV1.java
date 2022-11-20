@@ -2,11 +2,9 @@ package ubc.cpsc304.repository;
 import javax.sql.DataSource;
 
 import ubc.cpsc304.Mapper.ParkCombineMapper;
-import ubc.cpsc304.Mapper.ParkMapper;
-import ubc.cpsc304.Mapper.PublicParkCombineMapper;
 import ubc.cpsc304.Mapper.PublicParkMapper;
-import ubc.cpsc304.domain.Park;
 import ubc.cpsc304.domain.ParkA;
+import ubc.cpsc304.domain.Parks;
 import ubc.cpsc304.domain.PublicPark;
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,13 +28,13 @@ public class PublicParkRepositoryV1 extends ParkRepositoryV1{
         return (PublicPark) jdbcTemplate.queryForObject("select * from Public_park WHERE id = ?", new PublicParkMapper(), id);
     }
 
-    public List<Park> getAll() {
+    public List<Parks> getAll() {
         String sql = "select * from Public_park";
         return jdbcTemplate.query(sql, new PublicParkMapper());
     }
 
     public List<ParkA> getCombinedPark() {
-        String sql = "select * from Park INNER JOIN public_park ON park.id = public_park.id";
+        String sql = "select * from Parks INNER JOIN public_park ON parks.id = public_park.id";
         return jdbcTemplate.query(sql, new ParkCombineMapper());
     }
 
@@ -53,7 +51,7 @@ public class PublicParkRepositoryV1 extends ParkRepositoryV1{
     }
 
     public List<ParkA> getByProvinceNameProj(String provinceName) {
-        String sql = "select * from Park INNER JOIN Public_park ON park.id = public_park.id WHERE province_id = (select id from Province where province_name = ?)";
+        String sql = "select * from Parks INNER JOIN Public_park ON parks.id = public_park.id WHERE province_id = (select id from Provinces where province_name = ?)";
         return jdbcTemplate.query(sql, new ParkCombineMapper(), provinceName);
     }
 }

@@ -4,10 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import ubc.cpsc304.domain.Park;
 import ubc.cpsc304.domain.ParkA;
-import ubc.cpsc304.domain.PublicPark;
-import ubc.cpsc304.domain.RestrictedPark;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

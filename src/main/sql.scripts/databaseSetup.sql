@@ -1,4 +1,4 @@
-create TABLE Country
+create TABLE Countries
 (
     country_name VARCHAR2(50) PRIMARY KEY
 );
@@ -9,11 +9,11 @@ create TABLE Provinces
     province_name VARCHAR2(50) NOT NULL,
     country_name  VARCHAR2(50) NOT NULL,
     FOREIGN KEY (country_name)
-        references Country (country_name)
+        references Countries (country_name)
             ON delete CASCADE
 );
 
-create TABLE Park
+create TABLE Parks
 (
     id           INT PRIMARY KEY,
     province_id  INT NOT NULL,
@@ -26,12 +26,12 @@ create TABLE Park
             ON delete CASCADE
 );
 
-create TABLE Public_Park
+create TABLE Public_park
 (
     id           INT PRIMARY KEY,
     camping_site NUMBER(1) DEFAULT 0,
     FOREIGN KEY (id)
-        references Park (id)
+        references Parks (id)
             ON delete CASCADE
 );
 
@@ -41,7 +41,7 @@ create TABLE Restricted_Park
     daily_capacity INT,
     permit_type    VARCHAR2(10),
     FOREIGN KEY (id)
-        references Park (id)
+        references Parks (id)
             ON delete CASCADE
 );
 
@@ -58,7 +58,7 @@ create TABLE Visitor_centers
     email          VARCHAR2(100),
     center_address VARCHAR2(200),
     FOREIGN KEY (park_id)
-        references Park (id)
+        references Parks (id)
             ON delete CASCADE
 );
 
@@ -79,7 +79,7 @@ create TABLE Trail_info
     trail_description VARCHAR2(300),
     PRIMARY KEY (trail_name, park_id, difficulty),
     FOREIGN KEY (park_id)
-        references Park (id)
+        references Parks (id)
             ON delete CASCADE,
     FOREIGN KEY (distance, difficulty)
         references trail_level (distance, difficulty)
@@ -108,7 +108,7 @@ create TABLE Huts
         references trail_info (trail_name, park_id, difficulty)
             ON delete CASCADE,
     FOREIGN KEY (park_id)
-        references Park (id)
+        references Parks (id)
             ON delete CASCADE
 );
 
@@ -159,69 +159,69 @@ create TABLE Program_manager
 );
 
 create table program_reservation (
-    id INT GENERATED AS IDENTITY PRIMARY KEY,
-    reservation_number varchar2(100) NOT NULL UNIQUE,
-    program_id Number NOT NULL,
-    email varchar2(100) NOT NULL,
-    ppl INTEGER DEFAULT 1,
-    FOREIGN KEY (program_id) REFERENCES program_info (id) ON DELETE CASCADE
+                                     id INT GENERATED AS IDENTITY PRIMARY KEY,
+                                     reservation_number varchar2(100) NOT NULL UNIQUE,
+                                     program_id Number NOT NULL,
+                                     email varchar2(100) NOT NULL,
+                                     ppl INTEGER DEFAULT 1,
+                                     FOREIGN KEY (program_id) REFERENCES program_info (id) ON DELETE CASCADE
 );
 
 insert all
-    into Country(COUNTRY_NAME)
+    into Countries(Country_name)
 values ('CANADA')
-into Country(COUNTRY_NAME)
+into Countries(Country_name)
 values ('MEXICO')
-into Country(COUNTRY_NAME)
+into Countries(Country_name)
 values ('KOREA')
-into Country(COUNTRY_NAME)
+into Countries(Country_name)
 values ('US')
-into Country(COUNTRY_NAME)
+into Countries(Country_name)
 values ('FRANCE')
 select *
 from dual;
 
 insert all
-    into Provinces(id, Province_Name, COUNTRY_NAME)
+    into Provinces(id, Province_Name, Country_name)
 values (11, 'BC', 'CANADA')
-into Provinces(id, Province_Name, COUNTRY_NAME)
+into Provinces(id, Province_Name, Country_name)
 values (21, 'CA', 'US')
-into Provinces(id, Province_Name, COUNTRY_NAME)
+into Provinces(id, Province_Name, Country_name)
 values (12, 'AB', 'CANADA')
-into Provinces(id, Province_Name, COUNTRY_NAME)
+into Provinces(id, Province_Name, Country_name)
 values (13, 'ON', 'CANADA')
-into Provinces(id, Province_Name, COUNTRY_NAME)
+into Provinces(id, Province_Name, Country_name)
 values (14, 'QC','CANADA')
 select *
 from dual;
 
 insert all
-    into Park(id, province_id, park_name, park_address, open_hour, close_hour)
+    into Parks(id, province_id, park_name, park_address, open_hour, close_hour)
 values (101, 11, 'Strathcona Provincial Park', '857 Malkin Ave, Vancouver, BC V6A 2K5', '09', '17')
-into Park(id, province_id, park_name, park_address, open_hour, close_hour)
+into Parks(id, province_id, park_name, park_address, open_hour, close_hour)
 values (102, 11, 'Cypress Provincial Park', 'West Vancouver, BC V0N 1G0', '09', '17')
-into Park(id, province_id, park_name, park_address, open_hour, close_hour)
+into Parks(id, province_id, park_name, park_address, open_hour, close_hour)
 values (103, 11, 'Simson Provincial Park', 'Halfmoon Bay, BC V0N 1Y0', '08', '16')
-into Park(id, province_id, park_name, park_address, open_hour, close_hour)
+into Parks(id, province_id, park_name, park_address, open_hour, close_hour)
 values (201, 21, 'Death Valley National Park', 'CA 190 from Death Valley Junction, CA', '08', '17')
-into Park(id, province_id, park_name, park_address, open_hour, close_hour)
+into Parks(id, province_id, park_name, park_address, open_hour, close_hour)
 values (202, 21, 'Channel Islands National Park', 'Ventura, CA 93001, United States', '08', '17')
-into Park(id, province_id, park_name, park_address, open_hour, close_hour)
+into Parks(id, province_id, park_name, park_address, open_hour, close_hour)
 values (104, 11, 'Beaver Creek Provincial Park', '8801 BC-22A, Trail, BC V1R 4W6', '07', '17')
-into Park(id, province_id, park_name, park_address, open_hour, close_hour)
+into Parks(id, province_id, park_name, park_address, open_hour, close_hour)
 values (105, 11, 'Cedar Point Provincial Park', 'Cariboo F, BC V0L 1N0', '08', '16')
-into Park(id, province_id, park_name, park_address, open_hour, close_hour)
+into Parks(id, province_id, park_name, park_address, open_hour, close_hour)
 values (106, 11, 'Ferry Island Provincial Park', 'Fraser Valley, BC V0X 1X0', '07', '18')
-into Park(id, province_id, park_name, park_address, open_hour, close_hour)
+into Parks(id, province_id, park_name, park_address, open_hour, close_hour)
 values (203, 21, 'Caspar Headlands State Natural Reserve', '14260 Headlands Dr, Mendocino, CA 95460, United States',
         '10', '17')
-into Park(id, province_id, park_name, park_address, open_hour, close_hour)
+into Parks(id, province_id, park_name, park_address, open_hour, close_hour)
 values (107, 11, 'Gibson River Provincial Park', 'S Gibson Lake Rd, Severn, ON L0K 1S0', '06', '16')
 select *
 from dual;
 
 insert all
-into Public_Park(id, camping_site)
+    into Public_Park(id, camping_site)
 values (101, 1)
 into Public_Park(id, camping_site)
 values (102, 1)
@@ -230,7 +230,6 @@ values (103, 1)
 into Public_Park(id, camping_site)
 values (201, 0)
 into Public_Park(id, camping_site) values (202, 0)
-into Public_Park(id, camping_site) values (203, 1)
 select *
 from dual;
 
@@ -368,19 +367,19 @@ from dual;
 insert all
     into Program_info(id, visitor_center_id, program_name)
 values (1, 1001, 'Places of Wonder and Discovery')
-    into Program_info(id, visitor_center_id, program_name, description, program_image)
+into Program_info(id, visitor_center_id, program_name, description, program_image)
 values (2, 1002, 'Horseback Riding', 'Miles of wooded hills, and there essentially are two ways to explore them: on foot or by horse. For families who prefer the latter choice, saddle up and follow rangers on 2.5-hour guided horseback tours from Skyland Stables in the center of the park', 'https://travel.home.sndimg.com/content/dam/images/travel/fullrights/2016/05/9/0/iStock_AppalachianViews_Shenandoah-National-Park.jpg.rend.hgtvcom.966.644.suffix/1491593672963.jpeg')
-    into Program_info(id, visitor_center_id, program_name)
+into Program_info(id, visitor_center_id, program_name)
 values (3, 1004, 'Coastal Carnivores')
-    into Program_info(id, visitor_center_id, program_name)
+into Program_info(id, visitor_center_id, program_name)
 values (4, 2001, 'Habitat Conservation')
-    into Program_info(id, visitor_center_id, program_name)
+into Program_info(id, visitor_center_id, program_name)
 values (5, 2003, 'Junior Ranger Angler')
-    into Program_info(id, visitor_center_id, program_name, description, program_image)
+into Program_info(id, visitor_center_id, program_name, description, program_image)
 values (6, 1002, 'Stargazing', 'Ever wondered what makes the Northern Lights so colorful and spectacular? Get a crash-course in astrophysics this summer During 2- and 3-night programs titled Curtains of Light, Neal Brown, space expert and acting director of the Alaska Space Grant Program, will explain the magnetic forces', 'https://travel.home.sndimg.com/content/dam/images/travel/fullrights/2016/05/9/0/iStock_andyKRAKOVSKI_Denali-National-Park-Northern-Lights.jpg.rend.hgtvcom.966.644.suffix/1491593672948.jpeg')
-    into Program_info(id, visitor_center_id, program_name, description, program_image)
+into Program_info(id, visitor_center_id, program_name, description, program_image)
 values (7, 1002, 'Beetlemania" Lectures', 'Media outlets from all over the world have documented the alarming rate at which the mountain pine beetle has ravaged a majority of pine forests, but as part of this free family-friendly lecture series, rangers explain the situation in a way kids can understand. At least one interpreter dresses up in a full-body beetle costume; others lead the crowd in a sing-along to tunes from the Beatles (of course).', 'https://travel.home.sndimg.com/content/dam/images/travel/fullrights/2016/05/9/0/iStock_DavidParsons_Rocky-Mountain-National-Park-Beetle.jpg.rend.hgtvcom.966.725.suffix/1491593672990.jpeg')
-    into Program_info(id, visitor_center_id, program_name, description, program_image)
+into Program_info(id, visitor_center_id, program_name, description, program_image)
 values (8, 1002, 'Cruise the Shoreline', 'With more shoreline than any other national park, Acadia is a perfect place to explore by boat. Park rangers offer a number of different boat cruises inside the park, but the most popular is the 3-hour "Dive-In Theater." On this tour of Frenchman Bay, families can look out for seals and porpoises, and watch in real-time (on video monitors) as a diver scours the ocean floor for marine life to bring back aboard the boat for further hands-on exploration.', 'https://travel.home.sndimg.com/content/dam/images/travel/fullrights/2016/05/9/0/iStock_AtlanticAdv_Pelagic-Bird-Acadia-National-Park.jpg.rend.hgtvcom.966.644.suffix/1491593672969.jpeg')
 into Program_info(id, visitor_center_id, program_name, description, program_image)
 values (9, 1002, 'Sing About Animals', 'Parents of young children (6 and under) often complain that family programs are too sophisticated for their tots. Classes themselves include a lot of singing. Also on the agenda: reading books, playing games and making crafts--all of which pertains to animals native to the park (such as hawks, bears and big horn sheep). All participating children must be accompanied by an adult', 'https://travel.home.sndimg.com/content/dam/images/travel/fullrights/2016/05/9/0/iStock_Bartfett_Yosemite-National-Park.jpg.rend.hgtvcom.966.644.suffix/1491593672975.jpeg')

@@ -4,11 +4,9 @@ import com.zaxxer.hikari.HikariDataSource;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import ubc.cpsc304.domain.Country;
+import ubc.cpsc304.domain.Countries;
 
 import java.sql.SQLException;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static ubc.cpsc304.database.ConnectionConst.*;
@@ -16,28 +14,28 @@ import static ubc.cpsc304.database.ConnectionConst.*;
 @Slf4j
 public class CountryRepositoryV1Test {
 
-    CountryRepositoryV1 countryRepositoryV1;
-
-    @BeforeEach
-    void beforeEach() {
-        HikariDataSource dataSource = new HikariDataSource();
-        dataSource.setJdbcUrl(ORACLE_URL);
-        dataSource.setUsername(USER_NAME);
-        dataSource.setPassword(PASSWORD);
-        dataSource.setMaximumPoolSize(3);
-        dataSource.setPoolName("MyPool");
-        countryRepositoryV1 = new CountryRepositoryV1(dataSource);
-    }
+//    CountryRepositoryV1 countryRepositoryV1;
+//
+//    @BeforeEach
+//    void beforeEach() {
+//        HikariDataSource dataSource = new HikariDataSource();
+//        dataSource.setJdbcUrl(ORACLE_URL);
+//        dataSource.setUsername(USER_NAME);
+//        dataSource.setPassword(PASSWORD);
+//        dataSource.setMaximumPoolSize(3);
+//        dataSource.setPoolName("MyPool");
+//        countryRepositoryV1 = new CountryRepositoryV1(dataSource);
+//    }
 
     @Test
     void curd() throws SQLException {
-        Country c = new Country("FRANCE");
-        int rst = countryRepositoryV1.addCountry(c);
-        assertThat(rst).isEqualTo(1);
+//        Countries c = new Countries("FRANCE");
+//        int rst = countryRepositoryV1.addCountry(c);
+//        assertThat(rst).isEqualTo(1);
 //        List<Country> findCountry = countryRepositoryV1.getAll();
 //        log.info("findCountry = {}", findCountry);
 
-//        Country findCountry = countryRepositoryV1.getByName(c.getCname());
+//        Countries findCountry = countryRepositoryV1.getByName(c.getCname());
 //        log.info("length = {}", findCountry.size());
 //        log.info(String.valueOf(findCountry.get(1)));
 //        assertThat(findCountry.getCname()).isEqualTo(c.getCname());

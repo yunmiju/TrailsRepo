@@ -11,6 +11,6 @@ public class HomeController {
 
     @RequestMapping("")
     public String home() {
-        return "redirect:/programs";
+        return "redirect:/parks";
     }
 }

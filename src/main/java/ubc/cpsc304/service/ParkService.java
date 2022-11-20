@@ -85,4 +85,17 @@ public class ParkService {
     public List<String> getImages(int parkId) {
         return trailsImageRepositoryV1.getImagesByParkId(parkId);
     }
+
+
+    public ParkA getParkById(int id) {
+        return parkRepo.getById(id);
+    }
+
+    public List<ParkA> getParksByProvince(int provId) {
+        return parkRepo.getByProvinceId(provId);
+    }
+
+    public List<ParkA> getParksByCountry(String coun) {
+        return parkRepo.getByCountry(coun);
+    }
 }

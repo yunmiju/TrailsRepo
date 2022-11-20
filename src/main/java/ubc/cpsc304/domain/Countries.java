@@ -2,21 +2,21 @@ package ubc.cpsc304.domain;
 import lombok.Data;
 @Data
 public class Countries {
-    private String countryName;
+    private String cname;
 
     public Countries() {
 
     }
 
-    public Countries(String countryName) {
-        this.countryName = countryName;
+    public Countries(String cname) {
+        this.cname = cname;
     }
-    public void setCountryName(String countryName) {
-        this.countryName = countryName;
+    public void setCname(String cname) {
+        this.cname = cname;
     }
 
-    public String getCountryName() {
-        return this.countryName;
+    public String getCname() {
+        return cname;
     }
 }
 

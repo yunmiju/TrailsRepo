@@ -1,9 +1,8 @@
 package ubc.cpsc304.Mapper;
 
 import org.springframework.jdbc.core.RowMapper;
-import ubc.cpsc304.domain.Park;
+import ubc.cpsc304.domain.Parks;
 import ubc.cpsc304.domain.ParkA;
-import ubc.cpsc304.domain.PublicPark;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,7 +11,7 @@ public class ParkCombineMapper implements RowMapper {
 
     @Override
     public ParkA mapRow(ResultSet rs, int rowNum) throws SQLException {
-        ParkA park = new Park(rs.getInt("id"));
+        ParkA park = new Parks(rs.getInt("id"));
         park.setProvinceId(rs.getInt("province_id"));
         park.setParkName(rs.getString("park_name"));
         park.setParkAddress(rs.getString("park_address"));

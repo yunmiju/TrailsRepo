@@ -1,9 +1,6 @@
 package ubc.cpsc304.repository;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import ubc.cpsc304.Mapper.ParkMapper;
-import ubc.cpsc304.domain.Park;
-import ubc.cpsc304.domain.TrailImage;
 
 import javax.sql.DataSource;
 import java.util.List;

@@ -1,6 +1,6 @@
 package ubc.cpsc304.domain;
 
-public class PublicPark extends Park{
+public class PublicPark extends Parks{
 
     public PublicPark(int id) {
         this.id = id;

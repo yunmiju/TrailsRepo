@@ -26,7 +26,6 @@ public class ProgramController {
 //    System.out.println(programService.findAll());
 //    return "programs";
 //  }
-
   @GetMapping
   @ResponseBody
   public List<Program> listProgram(Model model) {
