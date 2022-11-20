@@ -9,13 +9,13 @@ import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Parks {
+public class ParkService {
     private ParkRepositoryV1 parkRepo;
     private RestrictedParkRepositoryV1 restrictParkRepo;
     private PublicParkRepositoryV1 publicParkRepo;
     private TrailsImageRepositoryV1 trailsImageRepositoryV1;
 
-    public Parks(DataSource dataSource) {
+    public ParkService(DataSource dataSource) {
         parkRepo = new ParkRepositoryV1(dataSource);
         restrictParkRepo = new RestrictedParkRepositoryV1(dataSource);
         publicParkRepo = new PublicParkRepositoryV1(dataSource);

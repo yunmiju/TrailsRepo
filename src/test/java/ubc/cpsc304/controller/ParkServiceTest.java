@@ -1,9 +1,9 @@
-package ubc.cpsc304.repository;
+package ubc.cpsc304.controller;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ubc.cpsc304.services.Parks;
+import ubc.cpsc304.services.ParkService;
 import ubc.cpsc304.domain.ParkA;
 
 import java.sql.SQLException;
@@ -13,8 +13,8 @@ import static ubc.cpsc304.database.ConnectionConst.*;
 
 
 @Slf4j
-public class ParksTest {
-    Parks parks;
+public class ParkServiceTest {
+    ParkService parkService;
 
     @BeforeEach
     void beforeEach() {
@@ -24,12 +24,12 @@ public class ParksTest {
         dataSource.setPassword(PASSWORD);
         dataSource.setMaximumPoolSize(10);
         dataSource.setPoolName("MyPool");
-        parks = new Parks(dataSource);
+        parkService = new ParkService(dataSource);
     }
 
         @Test
     void curdCombineParksByProvinceName() throws SQLException {
-        List<ParkA> combined = parks.combineParksByProvinceName("BC");
+        List<ParkA> combined = parkService.combineParksByProvinceName("BC");
         log.info("combined = {}", combined);
     }
 }

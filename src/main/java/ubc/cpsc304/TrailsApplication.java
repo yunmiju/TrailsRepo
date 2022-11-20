@@ -1,4 +1,4 @@
-package cpsc304project.jdbc;
+package ubc.cpsc304;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
@@ -7,12 +7,12 @@ import org.springframework.context.annotation.Import;
 import ubc.cpsc304.config.*;
 
 @Slf4j
+
 @Import(JdbcTemplateConfig.class)
 @SpringBootApplication(scanBasePackages = "ubc.cpsc304")
-public class DemoApplication {
-
+public class TrailsApplication {
 	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
-	}
 
+		SpringApplication.run(TrailsApplication.class, args);
+	}
 }

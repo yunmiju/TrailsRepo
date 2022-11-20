@@ -21,12 +21,14 @@ class DBConnectionUtilTest {
 //        assertThat(connection).isNotNull();
 //
 //        DataScource & HikariDataSource test
+
         HikariDataSource dataSource = new HikariDataSource();
         dataSource.setJdbcUrl(ORACLE_URL);
         dataSource.setUsername(USER_NAME);
         dataSource.setPassword(PASSWORD);
-        dataSource.setMaximumPoolSize(3);
+        dataSource.setMaximumPoolSize(1);
         dataSource.setPoolName("MyPool");
+
 //                DriverManagerDataSource dataSource = new DriverManagerDataSource(ORACLE_URL, USER_NAME, PASSWORD);
         Connection connection = dataSource.getConnection();
         log.info("connection={}, class={}", connection, connection.getClass());
