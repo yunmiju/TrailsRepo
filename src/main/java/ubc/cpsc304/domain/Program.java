@@ -8,7 +8,7 @@ import lombok.Data;
 public class Program {
   @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
-  private String name;
+  private String programName;
   private int capacity;
   private String imgURL;
   private String description;
@@ -18,9 +18,9 @@ public class Program {
 
   }
 
-  public Program(int id, String name, int capacity, String imgURL, String description, String managerName) {
+  public Program(int id, String programName, int capacity, String imgURL, String description, String managerName) {
     this.id = id;
-    this.name = name;
+    this.programName = programName;
     this.capacity = capacity;
     this.imgURL = imgURL;
     this.description = description;

@@ -1,5 +1,6 @@
 package ubc.cpsc304.repository;
 
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -28,7 +29,7 @@ class ProgramRepositoryTest {
     ProgramInfo programInfo = new ProgramInfo(6, 1002, "Explore the wild", 10);
     ProgramInfo savedProgramInfo = programRepository.save(programInfo);
 
-    ProgramInfo findProgramInfo = programRepository.findById(savedProgramInfo.getId());
+    Optional<ProgramInfo> findProgramInfo = programRepository.findById(savedProgramInfo.getId());
     assertThat(findProgramInfo).isEqualTo(savedProgramInfo);
   }
 
@@ -45,5 +46,13 @@ class ProgramRepositoryTest {
     List<Program> findPrograms = programRepository.findByParkId(102);
     log.info("findProgram={}", findPrograms);
     assertThat(findPrograms).isNotNull();
+  }
+
+  @Test
+  void findById() {
+    //findById
+    Optional<ProgramInfo> findProgram = programRepository.findById(1);
+    System.out.println("findProgram= " + findProgram);
+    assertThat(findProgram).isNotNull();
   }
 }

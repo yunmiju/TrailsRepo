@@ -47,6 +47,8 @@ dependencies {
   
 	testCompileOnly 'org.projectlombok:lombok'
 	testAnnotationProcessor 'org.projectlombok:lombok'
+
+	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.4'
 }
 
 tasks.named('test') {

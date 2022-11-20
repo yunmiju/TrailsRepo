@@ -27,8 +27,6 @@ public class ProgramRepositoryV2 implements ProgramRepository {
 
 
   public ProgramRepositoryV2(DataSource dataSource) {
-
-    System.out.println("dataSource ============= " + dataSource);
     this.templatePrev = new JdbcTemplate(dataSource);
     this.template = new NamedParameterJdbcTemplate(dataSource);
     this.jdbcInsert = new SimpleJdbcInsert(dataSource)
@@ -48,26 +46,25 @@ public class ProgramRepositoryV2 implements ProgramRepository {
 
   public List<Program> findAll() {
     String sql =
-        "SELECT P.PROGRAM_NAME, P.CAPACITY, P.PROGRAM_IMAGE, P.DESCRIPTION, M.MANAGER_NAME " +
+        "SELECT P.ID, P.PROGRAM_NAME, P.CAPACITY, P.PROGRAM_IMAGE AS ImgURL, P.DESCRIPTION, M.MANAGER_NAME " +
             "FROM PROGRAM_INFO P " +
             "JOIN VISITOR_CENTERS V " +
             "ON P.VISITOR_CENTER_ID = V.ID " +
             "JOIN PROGRAM_MANAGER PM on P.ID = PM.PROGRAM_ID " +
             "JOIN MANAGERS M on PM.MANAGER_ID = M.ID " +
             "ORDER BY P.PROGRAM_NAME";
-    log.info("sql={}", sql);
     return template.query(sql, programRowMapper());
   }
 
   public List<Program> findByParkId(long parkId) {
     String sql =
-        "select P.PROGRAM_NAME, P.CAPACITY, P.PROGRAM_IMAGE, P.DESCRIPTION, M.MANAGER_NAME " +
+        "select P.ID, P.PROGRAM_NAME, P.CAPACITY, P.PROGRAM_IMAGE AS ImgURL, P.DESCRIPTION, M.MANAGER_NAME " +
             "from PROGRAM_INFO P " +
             "JOIN VISITOR_CENTERS V " +
             "ON P.VISITOR_CENTER_ID = V.ID " +
             "JOIN PROGRAM_MANAGER PM on P.ID = PM.PROGRAM_ID " +
             "JOIN MANAGERS M on PM.MANAGER_ID = M.ID " +
-            "WHERE V.PARK_ID=:parkId" +
+            "WHERE V.PARK_ID=:parkId " +
             "ORDER BY P.PROGRAM_NAME";
     SqlParameterSource param = new MapSqlParameterSource()
         .addValue("parkId", parkId);
