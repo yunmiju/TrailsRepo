@@ -34,35 +34,38 @@ public class ProgramReservationRepositoryV2 implements ProgramReservationReposit
     // Number key = jdbcInsert.executeAndReturnKey(param);
     // programReservation.setId(key.intValue());
 
-    String sql = "insert into programId, reservationNumber, email, ppl) " +
-                  "values (:programId, :reservationNumber, :email, :ppl)";
+    String sql = "insert into program_reservation(program_id, reservation_number, email, ppl) " +
+        "values (:programId, :reservationNumber, :email, :ppl)";
     SqlParameterSource param = new MapSqlParameterSource()
         .addValue("programId", programReservation.getProgramId())
         .addValue("reservationNumber", programReservation.getReservationNumber())
         .addValue("email", programReservation.getEmail())
         .addValue("ppl", programReservation.getPpl());
-    return template.queryForObject(sql, param, programReservationRowMapper());
+    Integer result = template.update(sql, param);
+    return programReservation;
   }
 
-  public void update(int id, ProgramReservationUpdateDto updateParam) {
+  public ProgramReservation update(ReservationRequestDto updateParam) {
     String sql = "update program_reservation " +
         "set email=:email, ppl=:ppl " +
-        "where id=:id";
+        "where program_id=:id";
 
     SqlParameterSource param = new MapSqlParameterSource()
         .addValue("email", updateParam.getEmail())
-        .addValue("ppl", updateParam.getPpl());
+        .addValue("ppl", updateParam.getPpl())
+        .addValue("program_id", updateParam.getProgramId());
 
-    template.queryForObject(sql, param, programReservationRowMapper());
+    return template.queryForObject(sql, param, programReservationRowMapper());
   }
 
-  public void delete(int id) {
+  public String delete(int id) {
     String sql = "delete from program_reservation where id:id";
 
     SqlParameterSource param = new MapSqlParameterSource()
         .addValue("id", id);
 
     template.update(sql, param);
+    return id + " has been deleted";
   }
 
   public List<ProgramReservation> findAll(ProgramReservationSearchCond cond) {
@@ -91,6 +94,7 @@ public class ProgramReservationRepositoryV2 implements ProgramReservationReposit
     }
 
     log.info("sql={}", sql);
+
     return template.query(sql, param, programReservationRowMapper());
   }
 

@@ -1,6 +1,8 @@
 package ubc.cpsc304.controller;
 
 import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import ubc.cpsc304.domain.Program;
 import ubc.cpsc304.domain.ProgramInfo;
 import ubc.cpsc304.service.ProgramService;
@@ -12,11 +14,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:8080")
-@Controller
+@RestController
 @RequestMapping("programs")
 @RequiredArgsConstructor
 public class ProgramController {
 
+  @Autowired
   private final ProgramService programService;
 
 //  @GetMapping
@@ -36,15 +39,20 @@ public class ProgramController {
 
   @GetMapping("?park=parkId")
   @ResponseBody
-  public List<Program> programs(@RequestParam long parkId) {
+  public List<Program> programsByParkId(@RequestParam long parkId) {
     return programService.findByParkId(parkId);
   }
 
   @GetMapping("{id}")
   @ResponseBody
-  public Optional<ProgramInfo> program(@PathVariable int id, Model model) {
+  public Optional<ProgramInfo> programById(@PathVariable int id, Model model) {
     return programService.findById(id);
   }
+
+//  @GetMapping("test")
+//  public ResponseEntity test() {
+//    return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessgae.))
+//  }
 
 }
 

@@ -8,10 +8,10 @@ public interface ProgramReservationRepository {
 
   ProgramReservation save(ProgramReservation programReservation);
 
-  public void update(int id, ProgramReservationUpdateDto updateParam);
+  ProgramReservation update(ReservationRequestDto updateParam);
 
 
-  public void delete(int id);
+  String delete(int id);
 
-  public List<ProgramReservation> findAll(ProgramReservationSearchCond cond);
+  List<ProgramReservation> findAll(ProgramReservationSearchCond cond);
 }

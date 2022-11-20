@@ -5,7 +5,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ubc.cpsc304.repository.ProgramRepository;
 import ubc.cpsc304.repository.ProgramRepositoryV2;
+import ubc.cpsc304.repository.ProgramReservationRepository;
+import ubc.cpsc304.repository.ProgramReservationRepositoryV2;
 import ubc.cpsc304.service.ParkService;
+import ubc.cpsc304.service.ProgramReservationService;
+import ubc.cpsc304.service.ProgramReservationServiceV2;
 import ubc.cpsc304.service.ProgramService;
 
 import javax.sql.DataSource;
@@ -30,6 +34,16 @@ public class JdbcTemplateConfig {
   @Bean
   public ProgramRepository programRepository() {
     return new ProgramRepositoryV2(dataSource);
+  }
+
+  @Bean
+  public ProgramReservationService programReservationService() {
+    return new ProgramReservationServiceV2(programReservationRepository());
+  }
+
+  @Bean
+  public ProgramReservationRepository programReservationRepository() {
+    return new ProgramReservationRepositoryV2(dataSource);
   }
 
   @Bean
