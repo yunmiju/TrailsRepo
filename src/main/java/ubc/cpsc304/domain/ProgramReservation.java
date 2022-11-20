@@ -1,9 +1,13 @@
 package ubc.cpsc304.domain;
 
+import javax.persistence.*;
 import lombok.Data;
 
 @Data
+@Entity
 public class ProgramReservation {
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
   private String reservationNumber;
   private int programId;

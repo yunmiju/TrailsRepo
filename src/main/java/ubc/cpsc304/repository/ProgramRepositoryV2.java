@@ -84,19 +84,6 @@ public class ProgramRepositoryV2 implements ProgramRepository {
     }
   }
 
-  // private RowMapper<Program> ProgramRowMapper() {
-  //   return (rs, rowNum) -> {
-  //     Program program = new Program();
-  //     program.setId(rs.getInt("id"));
-  //     program.setName(rs.getString("program_name"));
-  //     program.setCapacity(rs.getInt("capacity"));
-  //     program.setImgURL(rs.getString("program_image"));
-  //     program.setDescription(rs.getString("description");
-  //     program.setManagerName(rs.getString("manager_name"));
-  //     return program;
-  //   };
-  // }
-
   private RowMapper<Program> programRowMapper() {
     return BeanPropertyRowMapper.newInstance(Program.class); // camel 변환 지원
   }

@@ -46,6 +46,8 @@ out/
 ## oracle connect info
 /src/main/java/ubc/cpsc304/database/ConnectionConst.java
 /src/main/resources/application.properties
+/src/test/resources/application.properties
 ### TEMP
 application.yml
 /frontend/trails/practice.html
+.temp/
