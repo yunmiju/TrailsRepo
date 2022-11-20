@@ -29,4 +29,19 @@ public class ProgramManager
     public void setMagagerId(int magagerId) {
         this.magagerId = magagerId;
     }
+
+    public static class PublicPark extends Park {
+        private boolean hasCampingSite;
+
+
+        public PublicPark(int id, int provinceId, String parkName, String parkAddress, String openHour, String closeHour, boolean hasCampingSite) {
+            super(id, provinceId, parkName, parkAddress, openHour, closeHour);
+            this.hasCampingSite = hasCampingSite;
+        }
+
+        public boolean hasCampingSite() {
+            return hasCampingSite;
+        }
+
+    }
 }

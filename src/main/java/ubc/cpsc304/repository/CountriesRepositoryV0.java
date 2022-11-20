@@ -1,7 +1,8 @@
 package ubc.cpsc304.repository;
 import org.slf4j.Logger;
+import org.springframework.jdbc.support.JdbcUtils;
 import ubc.cpsc304.database.DBConnectionUtil;
-import ubc.cpsc304.domain.Countries;
+import ubc.cpsc304.domain.Country;
 import lombok.extern.slf4j.Slf4j;
 import java.util.NoSuchElementException;
 
@@ -11,7 +12,7 @@ import java.sql.*;
 @Slf4j
 public class CountriesRepositoryV0 {
 
-    public Countries save(Countries countries) throws SQLException {
+    public Country save(Country country) throws SQLException {
         String sql;
         sql = "insert into Countries " +
                 "(country_name) " +
@@ -22,9 +23,9 @@ public class CountriesRepositoryV0 {
         try {
             con = getConnection();
             pstmt = con.prepareStatement(sql);
-            pstmt.setString(1, countries.getCountryName());
+            pstmt.setString(1, country.getCname());
             pstmt.executeUpdate();
-            return countries;
+            return country;
         } catch (SQLException e){
             log.error("db error", e);
             throw e;
@@ -33,7 +34,7 @@ public class CountriesRepositoryV0 {
         }
 
     }
-    public Countries findAll(String countryName) throws SQLException {
+    public Country findAll(String countryName) throws SQLException {
         String sql;
         sql = "select * from countries";
 
@@ -47,9 +48,9 @@ public class CountriesRepositoryV0 {
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                Countries countries = new Countries();
-                countries.setCountryName(rs.getString("country_name"));
-                return countries;
+                Country country = new Country();
+                country.setCname(rs.getString("country_name"));
+                return country;
             }
             throw new NoSuchElementException("countries not found");
 
@@ -60,12 +61,13 @@ public class CountriesRepositoryV0 {
             close(con, pstmt, null);
         }
     }
-    public Countries findByName(String countryName) throws SQLException {
+    public Country findByName(String countryName) throws SQLException {
         String sql;
         sql = "select * from countries where country_name='CANADA'";
         // sql = "select * from countries where country_name=?";
         System.out.println(sql);
         Connection con = null;
+
         PreparedStatement pstmt = null;
         ResultSet rs = null;
 
@@ -76,9 +78,9 @@ public class CountriesRepositoryV0 {
             rs = pstmt.executeQuery();
             System.out.println(rs);
             if (rs.next()) {
-                Countries countries = new Countries();
-                countries.setCountryName(rs.getString("country_name"));
-                return countries;
+                Country country = new Country();
+                country.setCname(rs.getString("country_name"));
+                return country;
             } else {
                 throw new NoSuchElementException("countries not found countryname= " + countryName);
             }
@@ -96,28 +98,32 @@ public class CountriesRepositoryV0 {
     }
 
     static void connectionHandler(Connection con, Statement stmt, ResultSet rs, Logger log) {
-        if (rs != null) {
-            try {
-                rs.close();
-            } catch (SQLException e) {
-                log.info("error", e);
-            }
-        }
-        if (stmt != null) {
-            try {
-                stmt.close(); // Exception
-            } catch (SQLException e) {
-                log.info("error", e);
-            }
-        }
+        JdbcUtils.closeResultSet(rs);
+        JdbcUtils.closeStatement(stmt);
+        JdbcUtils.closeConnection(con);
 
-        if (con != null) {
-            try {
-                con.close();
-            } catch (SQLException e) {
-                log.info("error", e);
-            }
-        }
+        //        if (rs != null) {
+//            try {
+//                rs.close();
+//            } catch (SQLException e) {
+//                log.info("error", e);
+//            }
+//        }
+//        if (stmt != null) {
+//            try {
+//                stmt.close(); // Exception
+//            } catch (SQLException e) {
+//                log.info("error", e);
+//            }
+//        }
+//
+//        if (con != null) {
+//            try {
+//                con.close();
+//            } catch (SQLException e) {
+//                log.info("error", e);
+//            }
+//        }
     }
 
     private Connection getConnection() {
