@@ -1,17 +1,19 @@
 package ubc.cpsc304.controller;
 
+import java.util.List;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import ubc.cpsc304.domain.Program;
 import ubc.cpsc304.domain.ProgramInfo;
 import ubc.cpsc304.service.ProgramService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
@@ -30,21 +32,20 @@ public class ProgramController {
 //    return "programs";
 //  }
 
+//  @GetMapping
+//  public List<Program> listProgram(Model model) {
+//    return programService.findAll();
+//  }
+
+
   @GetMapping
-  @ResponseBody
-  public List<Program> listProgram(Model model) {
-    return programService.findAll();
-  }
-
-
-  @GetMapping("?park=parkId")
-  @ResponseBody
-  public List<Program> programsByParkId(@RequestParam long parkId) {
+  public List<Program> programsByParkId(
+      @RequestParam(value = "parkId", required = true) long parkId) {
+    System.out.println("here  !!!!");
     return programService.findByParkId(parkId);
   }
 
   @GetMapping("{id}")
-  @ResponseBody
   public Optional<ProgramInfo> programById(@PathVariable int id, Model model) {
     return programService.findById(id);
   }

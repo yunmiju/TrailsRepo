@@ -1,9 +1,12 @@
 package ubc.cpsc304.service;
 
 import java.util.List;
+import java.util.Random;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ubc.cpsc304.advice.ApiException;
+import ubc.cpsc304.advice.ExceptionEnum;
 import ubc.cpsc304.domain.ProgramReservation;
 import ubc.cpsc304.repository.ProgramReservationRepository;
 import ubc.cpsc304.repository.ProgramReservationSearchCond;
@@ -18,7 +21,6 @@ public class ProgramReservationServiceV2 implements ProgramReservationService {
 
   public ProgramReservation save(ReservationRequestDto param) {
     Integer ppl = param.getPpl() == null ? 1 : param.getPpl();
-    System.out.println("ppl :  " + ppl);
     ProgramReservation programReservation = new ProgramReservation();
     programReservation.setProgramId(param.getProgramId());
     programReservation.setEmail(param.getEmail());
@@ -32,18 +34,32 @@ public class ProgramReservationServiceV2 implements ProgramReservationService {
 //    handleRequest(reservationRequestDto);
 //  }
 
+  @Override
   public List<ProgramReservation> findByCond(ProgramReservationSearchCond cond) {
     checkSearchParam(cond);
     return programReservationRepository.findAll(cond);
   }
 
-  public ProgramReservation updateReservation(ReservationRequestDto updateParam) {
-    return programReservationRepository.update(updateParam);
+  @Override
+  public ProgramReservation update(ReservationRequestDto updateParam) {
+    Integer queryResult = programReservationRepository.update(updateParam);
+    if (queryResult == 0) {
+      throw new ApiException(ExceptionEnum.RUNTIME_EXCEPTION);
+    }
+
+    return programReservationRepository.findByReservationNumber(
+        updateParam.getReservationNumber());
   }
 
-  public String delete(int id) {
-    return programReservationRepository.delete(id);
+  @Override
+  public String delete(String reservationNumber) {
+    Integer queryResult = programReservationRepository.delete(reservationNumber);
+    if (queryResult != 1) {
+      throw new ApiException(ExceptionEnum.EMPTY_RESULT);
+    }
+    return reservationNumber + " has been deleted";
   }
+
 
   private void handleRequest(ReservationRequestDto reservationRequestDto) {
 //    if (!reservationRequestDto) {
@@ -61,7 +77,6 @@ public class ProgramReservationServiceV2 implements ProgramReservationService {
   }
 
   private void checkSearchParam(ProgramReservationSearchCond cond) {
-    System.out.println("in checkINput Empty check");
     if (cond.getEmail() == null && cond.getReservationNumber() == null) {
       throw new ApiException(ExceptionEnum.INVALID_INPUT);
     }
@@ -75,6 +90,17 @@ public class ProgramReservationServiceV2 implements ProgramReservationService {
   }
 
   private String generateReservationNumber() {
-    return "111";
+    int len = 7;
+    Random random = new Random();
+    int createNum = 0;
+    String ranNum = "";
+    String resultNum = "";
+
+    for (int i = 0; i < len; i++) {
+      createNum = random.nextInt(9);
+      ranNum = Integer.toString(createNum);
+      resultNum += ranNum;
+    }
+    return resultNum;
   }
 }

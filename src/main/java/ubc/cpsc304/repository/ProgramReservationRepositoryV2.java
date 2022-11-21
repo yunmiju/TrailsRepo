@@ -29,6 +29,7 @@ public class ProgramReservationRepositoryV2 implements ProgramReservationReposit
         .usingGeneratedKeyColumns("id");
   }
 
+  @Override
   public ProgramReservation save(ProgramReservation programReservation) {
     // SqlParameterSource param = new BeanPropertySqlParameterSource(programReservation);
     // Number key = jdbcInsert.executeAndReturnKey(param);
@@ -45,29 +46,36 @@ public class ProgramReservationRepositoryV2 implements ProgramReservationReposit
     return programReservation;
   }
 
-  public ProgramReservation update(ReservationRequestDto updateParam) {
+  @Override
+  public Integer update(ReservationRequestDto updateParam) {
     String sql = "update program_reservation " +
         "set email=:email, ppl=:ppl " +
-        "where program_id=:id";
-
+        "where reservation_number=:reservationNumber";
     SqlParameterSource param = new MapSqlParameterSource()
         .addValue("email", updateParam.getEmail())
         .addValue("ppl", updateParam.getPpl())
-        .addValue("program_id", updateParam.getProgramId());
-
-    return template.queryForObject(sql, param, programReservationRowMapper());
+        .addValue("reservationNumber", updateParam.getReservationNumber());
+    return template.update(sql, param);
   }
 
-  public String delete(int id) {
-    String sql = "delete from program_reservation where id:id";
+  @Override
+  public Integer delete(String reservationNumber) {
+    String sql = "delete from program_reservation where reservation_number=:reservationNumber";
 
     SqlParameterSource param = new MapSqlParameterSource()
-        .addValue("id", id);
-
-    template.update(sql, param);
-    return id + " has been deleted";
+        .addValue("reservationNumber", reservationNumber);
+    return template.update(sql, param);
   }
 
+  @Override
+  public ProgramReservation findByReservationNumber(String reservationNumber) {
+    String sql = "select * from program_reservation where reservation_number=?";
+    ProgramReservation updated = templatePrev.queryForObject(sql, programReservationRowMapper(),
+        reservationNumber);
+    return updated;
+  }
+
+  @Override
   public List<ProgramReservation> findAll(ProgramReservationSearchCond cond) {
     String reservationNumber = cond.getReservationNumber();
     String email = cond.getEmail();
@@ -82,7 +90,7 @@ public class ProgramReservationRepositoryV2 implements ProgramReservationReposit
 
     boolean andFlag = false;
     if (StringUtils.hasText(reservationNumber)) {
-      sql += " reservation_number like concat('%',:reservationNumber,'%')";
+      sql += " reservation_number = :reservationNumber";
       andFlag = true;
     }
 
@@ -90,7 +98,7 @@ public class ProgramReservationRepositoryV2 implements ProgramReservationReposit
       if (andFlag) {
         sql += " and";
       }
-      sql += " email like concat('%',:email,'%')";
+      sql += " email =:email";
     }
 
     log.info("sql={}", sql);

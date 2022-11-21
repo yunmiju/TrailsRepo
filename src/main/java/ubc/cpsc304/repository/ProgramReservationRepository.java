@@ -1,17 +1,20 @@
 package ubc.cpsc304.repository;
 
 
-import ubc.cpsc304.domain.ProgramReservation;
 import java.util.List;
+import ubc.cpsc304.domain.ProgramReservation;
 
 public interface ProgramReservationRepository {
 
   ProgramReservation save(ProgramReservation programReservation);
 
-  ProgramReservation update(ReservationRequestDto updateParam);
+  Integer update(ReservationRequestDto updateParam);
 
 
-  String delete(int id);
+  Integer delete(String reservationNumer);
 
   List<ProgramReservation> findAll(ProgramReservationSearchCond cond);
+
+  ProgramReservation findByReservationNumber(String reservationNumber);
 }
+

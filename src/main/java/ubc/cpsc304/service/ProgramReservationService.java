@@ -6,11 +6,12 @@ import ubc.cpsc304.repository.ProgramReservationSearchCond;
 import ubc.cpsc304.repository.ReservationRequestDto;
 
 public interface ProgramReservationService {
+
   ProgramReservation save(ReservationRequestDto param);
 
   List<ProgramReservation> findByCond(ProgramReservationSearchCond cond);
 
-  ProgramReservation updateReservation(ReservationRequestDto updateParam);
+  ProgramReservation update(ReservationRequestDto updateParam);
 
-  String delete(int id);
+  String delete(String reservationNumber);
 }
