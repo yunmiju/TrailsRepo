@@ -5,7 +5,6 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +14,6 @@ import ubc.cpsc304.domain.Program;
 import ubc.cpsc304.domain.ProgramInfo;
 import ubc.cpsc304.service.ProgramService;
 
-@CrossOrigin(origins = "http://localhost:8080")
 @RestController
 @RequestMapping("programs")
 @RequiredArgsConstructor
@@ -36,7 +34,6 @@ public class ProgramController {
 //  public List<Program> listProgram(Model model) {
 //    return programService.findAll();
 //  }
-
 
   @GetMapping
   public List<Program> programsByParkId(
