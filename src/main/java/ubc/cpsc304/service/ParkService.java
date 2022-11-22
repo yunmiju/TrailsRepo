@@ -9,6 +9,8 @@ import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Boolean.parseBoolean;
+
 public class ParkService {
     private ParkRepositoryV1 parkRepo;
     private RestrictedParkRepositoryV1 restrictParkRepo;
@@ -31,8 +33,8 @@ public class ParkService {
 
     public List<String> getMainFilter() {
         List<String> mainFilter = new ArrayList<>();
-        mainFilter.add("RESTRICTED PARK");
-        mainFilter.add("PUBLIC PARK");
+        mainFilter.add("RESTRICTED_PARK");
+        mainFilter.add("PUBLIC_PARK");
         mainFilter.add("PROVINCE");
         mainFilter.add("OPENHOUR");
         mainFilter.add("CLOSEHOUR");
@@ -41,14 +43,14 @@ public class ParkService {
 
     public List<String> getSecondFilter(String filter) {
         List<String> secondList = new ArrayList<>();
-        if(filter == "RESTRICTED PARK") {
+        if(filter.equals("RESTRICTED_PARK")) {
             return restrictParkRepo.getPermitTypeProj();
-        } else if (filter == "PUBLIC PARK") {
+        } else if (filter.equals("PUBLIC_PARK")) {
             return publicParkRepo.getCampingSiteProj();
-        } else if (filter == "PROVINCE") {
+        } else if (filter.equals("PROVINCE")) {
             //join & proj
             return parkRepo.getProvinceProj();
-        } else if (filter == "OPENHOUR") {
+        } else if (filter.equals("OPENHOUR")) {
             return parkRepo.getOpenHourProj();
         } else{
             return parkRepo.getCloseHourProj();
@@ -57,18 +59,18 @@ public class ParkService {
 
     public List<ParkA> getParksByFilter(String f1, String f2) {
         List<ParkA> filtered = new ArrayList<>();
-        if(f1 == "RESTRICTED PARK") {
-            filtered.addAll(restrictParkRepo.getByPermitType(f2));
+        if(f1.equals("RESTRICTED_PARK")) {
+            filtered.addAll(restrictParkRepo.getByPermitTypeComb(f2));
             return filtered;
-        } else if (f1 == "PUBLIC PARK"){
-            filtered.addAll(publicParkRepo.getByCampingSite(Boolean.valueOf(f1)));
+        } else if (f1.equals("PUBLIC_PARK")){
+            filtered.addAll(publicParkRepo.getByCampingSiteComb(Boolean.parseBoolean(f2)));
             return filtered;
-        } else if (f1 == "PROVINCE") {
+        } else if (f1.equals("PROVINCE")) {
             //join & proj - from CombineMANAGER
 //            return combineParksByProvinceName(f2);
             //from Park
             return parkRepo.getByProvinceName(f2);
-        } else if (f1 == "OPENHOUR") {
+        } else if (f1.equals("OPENHOUR")) {
             return parkRepo.getByOpenHour(f2);
         } else{
             return parkRepo.getByCloseHour(f2);
