@@ -13,6 +13,8 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.util.StringUtils;
 import ubc.cpsc304.domain.ProgramReservation;
+import ubc.cpsc304.repository.DTO.ProgramReservationSearchCond;
+import ubc.cpsc304.repository.DTO.ReservationRequestDto;
 
 @Slf4j
 public class ProgramReservationRepositoryV2 implements ProgramReservationRepository {

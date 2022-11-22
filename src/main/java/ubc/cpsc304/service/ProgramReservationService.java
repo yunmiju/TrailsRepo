@@ -2,8 +2,8 @@ package ubc.cpsc304.service;
 
 import java.util.List;
 import ubc.cpsc304.domain.ProgramReservation;
-import ubc.cpsc304.repository.ProgramReservationSearchCond;
-import ubc.cpsc304.repository.ReservationRequestDto;
+import ubc.cpsc304.repository.DTO.ProgramReservationSearchCond;
+import ubc.cpsc304.repository.DTO.ReservationRequestDto;
 
 public interface ProgramReservationService {
 
