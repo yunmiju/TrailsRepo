@@ -25,6 +25,7 @@ function ParkInfo(props) {
     openHours,
     closeHours,
     provinceName,
+    programNums,
   } = park;
   return (
     <Wrapper>
@@ -61,6 +62,8 @@ function ParkInfo(props) {
                   <p>{centerAddress}</p>
                   <p>email:</p>
                   <p>{email}</p>
+                  <p># of Program Offered</p>
+                  <p>{programNums}</p>
                 </Info>
               </VisitorCenter>
             </Information>
