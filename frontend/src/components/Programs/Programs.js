@@ -6,34 +6,15 @@ import ProgramsIterator from './ProgramsIterator';
 
 function Programs(props) {
   const { programs, setPrograms } = props;
-  const [modal, setModal] = useState(false);
-  const [contents, setContents] = useState(null);
-  const [isUpdated, setIsUpdated] = useState(true);
-  const token = localStorage.getItem('token');
-
-  const openModal = () => {
-    setModal(true);
-  };
-
-  let scrollArea = document.getElementById('scroll');
 
   return (
     <Wrapper>
-      {modal && (
-        <Reservation
-          openModel={openModal}
-          setModal={setModal}
-          setContents={setContents}
-          setIsUpdated={setIsUpdated}
-        />
-      )}
       <Section>
         <ScheduleWrapper id="scroll" className="scroll-area">
           <Header>
             <Status>
               <div id="curr" />
             </Status>
-            <EditIcon onClick={openModal} />
           </Header>
           <Schedules>
             <ProgramsIterator programs={programs} />
