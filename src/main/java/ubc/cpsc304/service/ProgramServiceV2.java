@@ -8,27 +8,26 @@ import org.springframework.transaction.annotation.Transactional;
 import ubc.cpsc304.domain.Program;
 import ubc.cpsc304.domain.ProgramInfo;
 import ubc.cpsc304.repository.ProgramRepository;
-import ubc.cpsc304.repository.ProgramRepositoryV2;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class ProgramServiceV2 implements ProgramService {
 
-    private final ProgramRepository programRepository;
-    @Override
-    public List<Program> findByParkId(long parkId) {
+  private final ProgramRepository programRepository;
 
-        return programRepository.findByParkId(parkId);
-    }
+  @Override
+  public List<Program> findByParkId(long parkId) {
+    return programRepository.findByParkId(parkId);
+  }
 
-    @Override
-    public List<Program> findAll() {
-        return programRepository.findAll();
-    }
+  @Override
+  public List<Program> findAll() {
+    return programRepository.findAll();
+  }
 
-    @Override
-    public Optional<ProgramInfo> findById(int id) {
-        return programRepository.findById(id);
-    }
+  @Override
+  public Optional<ProgramInfo> findById(int id) {
+    return programRepository.findById(id);
+  }
 }
