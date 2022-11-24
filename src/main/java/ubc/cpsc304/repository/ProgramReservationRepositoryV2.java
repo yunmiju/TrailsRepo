@@ -13,6 +13,8 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.util.StringUtils;
 import ubc.cpsc304.domain.ProgramReservation;
+import ubc.cpsc304.repository.DTO.ProgramReservationSearchCond;
+import ubc.cpsc304.repository.DTO.ReservationRequestDto;
 
 @Slf4j
 public class ProgramReservationRepositoryV2 implements ProgramReservationRepository {
@@ -29,42 +31,53 @@ public class ProgramReservationRepositoryV2 implements ProgramReservationReposit
         .usingGeneratedKeyColumns("id");
   }
 
+  @Override
   public ProgramReservation save(ProgramReservation programReservation) {
     // SqlParameterSource param = new BeanPropertySqlParameterSource(programReservation);
     // Number key = jdbcInsert.executeAndReturnKey(param);
     // programReservation.setId(key.intValue());
 
-    String sql = "insert into programId, reservationNumber, email, ppl) " +
-                  "values (:programId, :reservationNumber, :email, :ppl)";
+    String sql = "insert into program_reservation(program_id, reservation_number, email, ppl) " +
+        "values (:programId, :reservationNumber, :email, :ppl)";
     SqlParameterSource param = new MapSqlParameterSource()
         .addValue("programId", programReservation.getProgramId())
         .addValue("reservationNumber", programReservation.getReservationNumber())
         .addValue("email", programReservation.getEmail())
         .addValue("ppl", programReservation.getPpl());
-    return template.queryForObject(sql, param, programReservationRowMapper());
+    Integer result = template.update(sql, param);
+    return programReservation;
   }
 
-  public void update(int id, ProgramReservationUpdateDto updateParam) {
+  @Override
+  public Integer update(ReservationRequestDto updateParam) {
     String sql = "update program_reservation " +
         "set email=:email, ppl=:ppl " +
-        "where id=:id";
-
+        "where reservation_number=:reservationNumber";
     SqlParameterSource param = new MapSqlParameterSource()
         .addValue("email", updateParam.getEmail())
-        .addValue("ppl", updateParam.getPpl());
-
-    template.queryForObject(sql, param, programReservationRowMapper());
+        .addValue("ppl", updateParam.getPpl())
+        .addValue("reservationNumber", updateParam.getReservationNumber());
+    return template.update(sql, param);
   }
 
-  public void delete(int id) {
-    String sql = "delete from program_reservation where id:id";
+  @Override
+  public Integer delete(String reservationNumber) {
+    String sql = "delete from program_reservation where reservation_number=:reservationNumber";
 
     SqlParameterSource param = new MapSqlParameterSource()
-        .addValue("id", id);
-
-    template.update(sql, param);
+        .addValue("reservationNumber", reservationNumber);
+    return template.update(sql, param);
   }
 
+  @Override
+  public ProgramReservation findByReservationNumber(String reservationNumber) {
+    String sql = "select * from program_reservation where reservation_number=?";
+    ProgramReservation updated = templatePrev.queryForObject(sql, programReservationRowMapper(),
+        reservationNumber);
+    return updated;
+  }
+
+  @Override
   public List<ProgramReservation> findAll(ProgramReservationSearchCond cond) {
     String reservationNumber = cond.getReservationNumber();
     String email = cond.getEmail();
@@ -79,7 +92,7 @@ public class ProgramReservationRepositoryV2 implements ProgramReservationReposit
 
     boolean andFlag = false;
     if (StringUtils.hasText(reservationNumber)) {
-      sql += " reservation_number like concat('%',:reservationNumber,'%')";
+      sql += " reservation_number = :reservationNumber";
       andFlag = true;
     }
 
@@ -87,10 +100,11 @@ public class ProgramReservationRepositoryV2 implements ProgramReservationReposit
       if (andFlag) {
         sql += " and";
       }
-      sql += " email like concat('%',:email,'%')";
+      sql += " email =:email";
     }
 
     log.info("sql={}", sql);
+
     return template.query(sql, param, programReservationRowMapper());
   }
 
