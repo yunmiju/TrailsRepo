@@ -9,6 +9,7 @@ import ubc.cpsc304.advice.ApiException;
 import ubc.cpsc304.advice.ExceptionEnum;
 import ubc.cpsc304.domain.ProgramReservation;
 import ubc.cpsc304.repository.DTO.ProgramReservationSearchCond;
+import ubc.cpsc304.repository.DTO.ReservationInfoDto;
 import ubc.cpsc304.repository.DTO.ReservationRequestDto;
 import ubc.cpsc304.repository.ProgramReservationRepository;
 
@@ -35,19 +36,18 @@ public class ProgramReservationServiceV2 implements ProgramReservationService {
 //  }
 
   @Override
-  public List<ProgramReservation> findByCond(ProgramReservationSearchCond cond) {
+  public List<ReservationInfoDto> findByCond(ProgramReservationSearchCond cond) {
     checkSearchParam(cond);
     return programReservationRepository.findAll(cond);
   }
 
   @Override
-  public ProgramReservation update(ReservationRequestDto updateParam) {
+  public ReservationInfoDto update(ReservationRequestDto updateParam) {
     Integer queryResult = programReservationRepository.update(updateParam);
     if (queryResult == 0) {
       throw new ApiException(ExceptionEnum.RUNTIME_EXCEPTION);
     }
-
-    return programReservationRepository.findByReservationNumber(
+    return programReservationRepository.findInfoByReservationNumber(
         updateParam.getReservationNumber());
   }
 
