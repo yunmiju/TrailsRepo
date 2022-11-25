@@ -13,7 +13,7 @@ function Router() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/programs" element={<ProgramsByPark />} />
+        <Route path="/park/:parkId/programs" element={<ProgramsByPark />} />
       </Routes>
       <Footer />
     </BrowserRouter>

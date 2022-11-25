@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import moment from 'moment';
 
 import axios from 'axios';
@@ -9,7 +9,8 @@ import Programs from '../../components/Programs/Programs';
 import BASE_URL from '../../config';
 import { ParkIdContext } from '../../App';
 function ProgramsByPark() {
-  const [parkId, setParkId] = useContext(ParkIdContext);
+  const { parkId } = useParams();
+  // const [parkId, setParkId] = useContext(ParkIdContext);
   const [park, setPark] = useState();
   const [programs, setPrograms] = useState();
 
