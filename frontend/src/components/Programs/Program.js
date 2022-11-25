@@ -1,15 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { EmailOutline } from '@styled-icons/evaicons-outline';
+import { Delete } from '@styled-icons/fluentui-system-filled';
 import Reservation from './Reservation';
+import BASE_URL from '../../config';
+import axios from 'axios';
 
 function Program(props) {
-  const token = localStorage.getItem('token');
   const { program } = props;
   const [programName, setContent] = useState(program?.programName || '');
   const [modal, setModal] = useState(false);
+  const [msg, setMsg] = useState(false);
+  const [deleteItem, setDeleteItem] = useState(false);
+  const [reserve, setReserve] = useState(false);
   const [contents, setContents] = useState(null);
-  const [isUpdated, setIsUpdated] = useState(true);
 
   const onContentHandler = e => {
     setContent(e.currentTarget.value);
@@ -19,6 +23,34 @@ function Program(props) {
     setModal(true);
   };
 
+  const onDeleteHandler = () => {
+    setDeleteItem(true);
+  };
+
+  const onReserveHandler = () => {
+    // setReserve(true);
+    openModal();
+  };
+
+  const deleteProgramApi = async () => {
+    await axios
+      .put(`${BASE_URL}/programs/delete/${program.id}`)
+      .then(response => {
+        setMsg('Program has been deleted');
+        setDeleteItem(false);
+        props.setIsUpdated(true);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    if (deleteItem) {
+      deleteProgramApi();
+    }
+  }, [deleteItem]);
+
   return (
     <Wrapper>
       {modal && (
@@ -26,7 +58,6 @@ function Program(props) {
           openModel={openModal}
           setModal={setModal}
           setContents={setContents}
-          setIsUpdated={setIsUpdated}
           program={program}
         />
       )}
@@ -42,8 +73,11 @@ function Program(props) {
               <TitleBox>
                 <Title>
                   <span>{program.programName}</span>
-                  <EmailIcon onClick={openModal} />
                 </Title>
+                <IconContainer>
+                  <EmailIcon onClick={onReserveHandler} />
+                  <DeleteIcon onClick={onDeleteHandler} />
+                </IconContainer>
               </TitleBox>
               <DetailsBox>
                 <Description>
@@ -127,9 +161,8 @@ const Img = styled.div`
 const TitleBox = styled.div`
   width: 100%;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: flex-between;
   margin: 20px 0;
 `;
 const Title = styled.div`
@@ -138,6 +171,16 @@ const Title = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  font-weight: 700;
+  font-size: 28px;
+  color: #007aff;
+`;
+
+const IconContainer = styled.div`
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
   font-weight: 700;
   font-size: 28px;
   color: #007aff;
@@ -180,7 +223,22 @@ const EmailIcon = styled(EmailOutline)`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 30px;
+  height: 20px;
+  color: #007aff;
+  opacity: 0.6;
+  padding-right: 10px;
+  :hover {
+    cursor: pointer;
+    opacity: 1;
+  }
+  z-index: 99;
+`;
+
+const DeleteIcon = styled(Delete)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20px;
   color: #007aff;
   opacity: 0.6;
   padding-right: 10px;
