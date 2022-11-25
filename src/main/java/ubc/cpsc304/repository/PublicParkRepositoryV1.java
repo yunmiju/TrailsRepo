@@ -43,6 +43,12 @@ public class PublicParkRepositoryV1 extends ParkRepositoryV1{
         return jdbcTemplate.query(sql, new PublicParkMapper(), campingSite);
     }
 
+    public List<PublicPark> getByCampingSiteComb(boolean campingSite){
+        String sql = "select * from Public_park PU INNER JOIN Parks P ON PU.ID = P.ID " +
+                "where PU.CAMPING_SITE = ?";
+        return jdbcTemplate.query(sql, new ParkCombineMapper(), campingSite);
+    }
+
 
     public List<String> getCampingSiteProj() {
         String sql = "select DISTINCT camping_site from Public_park ORDER BY camping_site";

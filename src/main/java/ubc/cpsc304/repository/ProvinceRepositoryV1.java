@@ -38,6 +38,15 @@ public class ProvinceRepositoryV1 {
         return jdbcTemplate.query(sql, new ProvinceMapper(), provinceName);
     }
 
+    public String getProvinceName(int provinceId) {
+        String sql = "select province_name from Provinces WHERE id = ?";
+        return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> rs.getString("province_name"), provinceId);
+    }
+
+    public String getCountryName(int provinceId) {
+        String sql = "select country_name from Provinces WHERE id = ?";
+        return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> rs.getString("country_name"), provinceId);
+    }
 
     public List<Provinces> getByCountry(String countryName) {
         String sql = "select * from Provinces where country_name = ?";
