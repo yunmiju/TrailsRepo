@@ -1,13 +1,10 @@
 import React, { useContext, useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import BASE_URL from '../../config';
 import Parks from '../../components/Parks/Parks';
 import ParkFilterOne from '../../components/Parks/ParkFilterOne';
-import ParkFilterTwo from '../../components/Parks/ParkFilterTwo';
 import { parkContext, filterOne, filterTwo } from '../../context/ParkContext';
-import Temp from '../../components/Parks/Temp';
 
 function ParksAll() {
   const [firstFilters, setFirstFilters] = useState();
@@ -19,7 +16,6 @@ function ParksAll() {
   console.log('second filter:', secondFilter);
 
   const parkApi = async () => {
-    console.log(parks);
     await axios
       .get(`${BASE_URL}/parks/`, {
         headers: {
@@ -46,10 +42,7 @@ function ParksAll() {
         }
       )
       .then(response => {
-        console.log('here');
         setParks(response.data);
-        console.log(response.data);
-        // firstFilterApi();
       })
       .catch(error => {
         console.log(error);
@@ -87,30 +80,11 @@ function ParksAll() {
       });
   };
 
-  const filterListner = async () => {
-    await axios
-      .get(
-        `${BASE_URL}/parks/filter?firstFilter=${firstFilter}&secondFilter=${secondFilter}`,
-        {
-          headers: {
-            'Access-Control-Allow-Origin': '*',
-          },
-        }
-      )
-      .then(response => {
-        setParks(response.data);
-      })
-      .catch(error => console.log(error));
-  };
-
   useEffect(() => {
-    console.log('***', secondFilter);
     console.log('***', firstFilter);
     if (secondFilter === 'init' || secondFilter === undefined) {
-      console.log('here!');
       parkApi();
     } else {
-      console.log('should be here!');
       parkSelectedApi();
     }
   }, [secondFilter]);

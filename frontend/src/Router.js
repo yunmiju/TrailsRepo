@@ -13,13 +13,14 @@ import BASE_URL from './config';
 function Router() {
   return (
     <BrowserRouter>
-      {/*<ScrollTop />*/}
-      {/*<Header />*/}
+      <ScrollTop />
+      <Header />
       <Routes>
-        <Route path="/" element={<Home />} />
+        {/*<Route path="/" element={<Home />} />*/}
+        <Route path="/" element={<ParksAll />} />
         <Route path="/park/:parkId/programs" element={<ProgramsByPark />} />
       </Routes>
-      {/*<Footer />*/}
+      <Footer />
     </BrowserRouter>
   );
 }

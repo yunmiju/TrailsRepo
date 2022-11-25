@@ -6,7 +6,6 @@ import styled from 'styled-components';
 function ParkImage(props) {
   const { parkId } = props;
   const [image, setImage] = useState();
-  // console.log(parkId);
 
   const imageGetter = async () => {
     await axios
@@ -19,7 +18,6 @@ function ParkImage(props) {
 
   useEffect(() => {
     imageGetter();
-    // console.log('length', image?.length);
   }, []);
 
   return (

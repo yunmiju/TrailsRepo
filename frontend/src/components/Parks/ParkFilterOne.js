@@ -16,7 +16,7 @@ function ParkFilterOne(props) {
   const secondFilterGetter = async () => {
     console.log('firstFilter', firstFilters);
     await axios
-      .get(`${BASE_URL}/parks/filter/${firstFilter.firstFilter}`, {
+      .get(`${BASE_URL}/parks/filter/${firstFilter}`, {
         headers: {
           'Access-Control-Allow-Origin': '*',
         },
@@ -31,8 +31,6 @@ function ParkFilterOne(props) {
 
   const handleChange = e => {
     setFirstFilter(e.target.value);
-    // secondFilterGetter();
-    console.log(firstFilter);
   };
 
   useEffect(() => {

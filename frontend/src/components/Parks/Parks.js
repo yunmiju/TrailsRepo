@@ -5,7 +5,6 @@ import ParkIterator from './ParkIterator';
 
 function Parks() {
   const { parks, setParks } = useContext(parkContext);
-  // console.log('parks in parks', parks);
 
   return (
     <Wrapper>
