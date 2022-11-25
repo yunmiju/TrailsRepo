@@ -24,9 +24,17 @@ function ParkInfo(props) {
     email,
     openHours,
     closeHours,
+    permitType,
+    campingSite,
     provinceName,
     programNums,
   } = park;
+  const parkType =
+    permitType !== undefined && permitType !== null
+      ? 'Restricted Park ' + permitType
+      : campingSite !== undefined
+      ? 'Public Park : Camping ' + (campingSite ? 'Allowed' : 'Not Allowed')
+      : '';
   return (
     <Wrapper>
       {modal && (
@@ -42,10 +50,17 @@ function ParkInfo(props) {
           <ParkWrapper>
             <Header>
               <ParkName>
-                <span>{parkName}</span>
+                <Info>
+                  <span>{parkName}</span>
+                </Info>
               </ParkName>
             </Header>
             <Information>
+              <ParkType>
+                <Info>
+                  <span>{parkType}</span>
+                </Info>
+              </ParkType>
               <Location>
                 <Info>
                   <p>{parkAddress}</p>
@@ -111,6 +126,15 @@ const Information = styled.div`
 `;
 
 const Location = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  margin-bottom: 30px;
+`;
+
+const ParkType = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
