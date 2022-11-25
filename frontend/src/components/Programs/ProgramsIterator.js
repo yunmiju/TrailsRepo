@@ -11,7 +11,12 @@ function ProgramsIterator(props) {
         <ScheduleWrapper>
           {programs?.length > 0 ? (
             programs?.map(program => (
-              <Program key={program.id} program={program} />
+              <Program
+                key={program.id}
+                program={program}
+                isUpdated={props.isUpdated}
+                setIsUpdated={props.setIsUpdated}
+              />
             ))
           ) : (
             <ProgramEmpty />
