@@ -32,4 +32,20 @@ public class TrailImage {
     public String getImageUrl() {
         return imageUrl;
     }
+
+    public void setTrailName(String trailName) {
+        this.trailName = trailName;
+    }
+
+    public void setParkId(int parkId) {
+        this.parkId = parkId;
+    }
+
+    public void setDifficulty(String difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 }

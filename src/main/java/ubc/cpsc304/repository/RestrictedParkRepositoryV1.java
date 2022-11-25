@@ -57,4 +57,12 @@ public class RestrictedParkRepositoryV1 extends ParkRepositoryV1{
         String sql = "select * from Parks INNER JOIN restricted_park ON parks.id = restricted_park.id WHERE province_id = (select id from Provinces where province_name = ?) ";
         return jdbcTemplate.query(sql, new ParkCombineMapper(), provinceName);
     }
+
+
+    public List<RestrictedPark> getByPermitTypeComb(String permitType){
+        String sql = "select * " +
+                "from Restricted_park R INNER JOIN Parks P ON P.id = R.id " +
+                "where R.PERMIT_TYPE = ?";
+        return jdbcTemplate.query(sql, new ParkCombineMapper(), permitType);
+    }
 }

@@ -40,5 +40,25 @@ public class Huts {
     public int getBeds() {
         return beds;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setTrailName(String trailName) {
+        this.trailName = trailName;
+    }
+
+    public void setParkId(int parkId) {
+        this.parkId = parkId;
+    }
+
+    public void setDifficulty(String difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    public void setBeds(int beds) {
+        this.beds = beds;
+    }
 }
 

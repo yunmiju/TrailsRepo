@@ -26,4 +26,16 @@ public class TrailLevel {
     public Float getDuration() {
         return duration;
     }
+
+    public void setDistance(Float distance) {
+        this.distance = distance;
+    }
+
+    public void setDifficulty(String difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    public void setDuration(Float duration) {
+        this.duration = duration;
+    }
 }

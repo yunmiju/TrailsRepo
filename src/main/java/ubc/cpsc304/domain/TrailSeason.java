@@ -32,4 +32,20 @@ public class TrailSeason {
     public String getDifficulty() {
         return difficulty;
     }
+
+    public void setTrailName(String trailName) {
+        this.trailName = trailName;
+    }
+
+    public void setSeasonName(String seasonName) {
+        this.seasonName = seasonName;
+    }
+
+    public void setParkId(int parkId) {
+        this.parkId = parkId;
+    }
+
+    public void setDifficulty(String difficulty) {
+        this.difficulty = difficulty;
+    }
 }
