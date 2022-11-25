@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import ubc.cpsc304.domain.ProgramInfo;
 
-public interface  ProgramService {
+public interface ProgramService {
     List<Program> findByParkId(long parkId);
     List<Program> findAll();
 
