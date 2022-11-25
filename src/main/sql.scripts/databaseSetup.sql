@@ -91,7 +91,7 @@ create TABLE Trail_Image
     trail_name VARCHAR2(200),
     park_id    INT,
     difficulty VARCHAR2(50),
-    image_url   VARCHAR2(200),
+    image_url   VARCHAR2(1500),
     PRIMARY KEY (trail_name, park_id, difficulty, image_url),
     FOREIGN KEY (trail_name, park_id, difficulty) REFERENCES Trail_info (trail_name, park_id, difficulty)
         ON delete CASCADE
