@@ -12,34 +12,61 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "https://localhost:8080")
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/parks")
+@RequestMapping("parks")
+
 public class ParkController {
     private final ParkService parkService;
 
     @GetMapping
-    public List<ParkA> listPark(Model model) {
+    public List<ParkA> getParks() {
         return parkService.getAllParks();
     }
 
-    @GetMapping("{parkId}")
-    public Optional<ParkA> park(@PathVariable int parkId, Model model) {
+    @GetMapping("/{parkId}")
+    public Optional<ParkA> getParkById(@PathVariable int parkId ) {
         return Optional.ofNullable(parkService.getParkById(parkId));
     }
 
-    @GetMapping("?province=provinceId")
-    @ResponseBody
-    public List<ParkA> parks(@RequestParam int provinceId) {
-        return parkService.getParksByProvince(provinceId);
+    @GetMapping("/provinceName/{provinceId}")
+    public String getProvinceName(@PathVariable int provinceId) {
+        return parkService.getProvinceName(provinceId);
     }
 
-    @GetMapping("?country=countryName")
-    @ResponseBody
-    public List<ParkA> parks(@RequestParam String countryName) {
-        return parkService.getParksByCountry(countryName);
+    @GetMapping("/countryName/{provinceId}")
+    public String getCountryName(@PathVariable int provinceId) {
+        return parkService.getCountryName(provinceId);
     }
 
+//    @GetMapping
+//    public List<ParkA> parks(@RequestParam int provinceId) {
+//        return parkService.getParksByProvince(provinceId);
+//    }
+
+    @GetMapping("/filter/")
+    @ResponseBody
+    public List<String> getMainFilter() {
+        return parkService.getMainFilter();
+    }
+
+    @GetMapping("/filter/{firstFilter}")
+    @ResponseBody
+    public List<String> getSecondFilter(@PathVariable String firstFilter) {
+        return parkService.getSecondFilter(firstFilter);
+    }
+
+    @GetMapping("/filter")
+    @ResponseBody
+    public List<ParkA> select(@RequestParam String firstFilter, @RequestParam String secondFilter) {
+        return parkService.getParksByFilter(firstFilter, secondFilter);
+    }
+
+    @GetMapping("/image/{parkId}")
+    @ResponseBody
+    public List<String> getImage(@PathVariable int parkId) {
+        return parkService.getImages(parkId);
+    }
 }
 

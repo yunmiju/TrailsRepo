@@ -84,8 +84,6 @@ public class ParkRepositoryV1 {
     }
 
 
-
-
     public List<ParkA> getByCountry(String countryName) {
         String sql = "select P.id, P.province_id, P.park_name, P.park_address, P.open_hour, P.close_hour " +
                 "from Parks P " +
