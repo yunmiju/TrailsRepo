@@ -53,20 +53,23 @@ public class RestrictedParkRepositoryV1Test {
 //        log.info("findParkByPermitType = {}", findParkByPermitType);
 //        assertThat(findParkByPermitType.size()).isEqualTo(3);
 //        System.out.println(findParkByPermitType);
-        List<ParkA> combinedPark = new ArrayList<>();
+//        List<ParkA> combinedPark = new ArrayList<>();
 //        List<RestrictedPark> combinedPark = restrictedParkRepositoryV1.getCombinedPark();
-        combinedPark.addAll(restrictedParkRepositoryV1.getCombinedPark());
-        System.out.println(combinedPark);
-        System.out.println(combinedPark.size());
+//        combinedPark.addAll(restrictedParkRepositoryV1.getCombinedPark());
+//        System.out.println(combinedPark);
+//        System.out.println(combinedPark.size());
     }
 
     @Test
     void curdProj() throws SQLException {
 //        List<String> s = restrictedParkRepositoryV1.getPermitTypeProj();
 //        System.out.println(s);
-        List<ParkA> s4 = restrictedParkRepositoryV1.getByProvinceNameProj("BC");
-        System.out.println(s4.get(0).getPermitType());
-        System.out.println(s4);
+//        List<ParkA> s4 = restrictedParkRepositoryV1.getByProvinceNameProj("BC");
+//        System.out.println(s4.get(0).getPermitType());
+//        System.out.println(s4);
+
+//        int test = restrictedParkRepositoryV1.getByPermitTypeCombAgg("B");
+//        System.out.println(test);
     }
 
 

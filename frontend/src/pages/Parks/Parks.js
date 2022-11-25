@@ -4,13 +4,19 @@ import styled from 'styled-components';
 import BASE_URL from '../../config';
 import Parks from '../../components/Parks/Parks';
 import ParkFilterOne from '../../components/Parks/ParkFilterOne';
-import { parkContext, filterOne, filterTwo } from '../../context/ParkContext';
+import {
+  parkContext,
+  filterOne,
+  filterTwo,
+  parkCount,
+} from '../../context/ParkContext';
 
 function ParksAll() {
   const [firstFilters, setFirstFilters] = useState();
   const [secondFilters, setSecondFilters] = useState();
   const [firstFilter, setFirstFilter] = useState('init');
   const [secondFilter, setSecondFilter] = useState('init');
+  const [count, setCount] = useState(0);
   const [parks, setParks] = useState();
   console.log('first filter:', firstFilter);
   console.log('second filter:', secondFilter);
@@ -25,6 +31,7 @@ function ParksAll() {
       .then(response => {
         setParks(response.data);
         firstFilterApi();
+        setCount(response.data?.length);
       })
       .catch(error => {
         console.log(error);
@@ -43,6 +50,7 @@ function ParksAll() {
       )
       .then(response => {
         setParks(response.data);
+        setCount(response.data?.length);
       })
       .catch(error => {
         console.log(error);
@@ -65,24 +73,28 @@ function ParksAll() {
       });
   };
 
-  const secondFilterApi = async () => {
-    await axios
-      .get(`${BASE_URL}/parks/filter/${firstFilter}`, {
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-        },
-      })
-      .then(response => {
-        setSecondFilters(response.data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
+  // const secondFilterApi = async () => {
+  //   await axios
+  //     .get(`${BASE_URL}/parks/filter/${firstFilter}`, {
+  //       headers: {
+  //         'Access-Control-Allow-Origin': '*',
+  //       },
+  //     })
+  //     .then(response => {
+  //       setSecondFilters(response.data);
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     });
+  // };
 
   useEffect(() => {
     console.log('***', firstFilter);
-    if (secondFilter === 'init' || secondFilter === undefined) {
+    if (
+      secondFilter === 'init' ||
+      secondFilter === undefined ||
+      firstFilter === 'init'
+    ) {
       parkApi();
     } else {
       parkSelectedApi();
@@ -91,16 +103,18 @@ function ParksAll() {
 
   return (
     <Main>
-      <filterOne.Provider value={{ firstFilter, setFirstFilter }}>
-        <filterTwo.Provider value={{ secondFilter, setSecondFilter }}>
-          <parkContext.Provider value={{ parks, setParks }}>
-            <Contents>
-              {firstFilters && <ParkFilterOne firstFilters={firstFilters} />}
-              {parks && <Parks parks={parks} />}
-            </Contents>
-          </parkContext.Provider>
-        </filterTwo.Provider>
-      </filterOne.Provider>
+      <parkCount.Provider value={{ count, setCount }}>
+        <filterOne.Provider value={{ firstFilter, setFirstFilter }}>
+          <filterTwo.Provider value={{ secondFilter, setSecondFilter }}>
+            <parkContext.Provider value={{ parks, setParks }}>
+              <Contents>
+                {firstFilters && <ParkFilterOne firstFilters={firstFilters} />}
+                {parks && <Parks parks={parks} />}
+              </Contents>
+            </parkContext.Provider>
+          </filterTwo.Provider>
+        </filterOne.Provider>
+      </parkCount.Provider>
     </Main>
   );
 }

@@ -17,7 +17,11 @@ function Programs(props) {
             </Status>
           </Header>
           <Schedules>
-            <ProgramsIterator programs={programs} />
+            <ProgramsIterator
+              programs={programs}
+              isUpdated={props.isUpdated}
+              setIsUpdated={props.setIsUpdated}
+            />
           </Schedules>
         </ScheduleWrapper>
       </Section>

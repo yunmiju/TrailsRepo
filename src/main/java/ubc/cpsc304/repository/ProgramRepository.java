@@ -1,6 +1,5 @@
 package ubc.cpsc304.repository;
 
-
 import java.util.List;
 import java.util.Optional;
 import ubc.cpsc304.domain.Program;
@@ -15,4 +14,6 @@ public interface ProgramRepository {
   List<Program> findByParkId(long parkId);
 
   Optional<ProgramInfo> findById(int id);
+
+  Integer delete(Integer id);
 }
