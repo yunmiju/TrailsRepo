@@ -2,8 +2,6 @@ HELP.md
 .gradle
 node_modules
 build/
-package-lock.json
-package.json
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/

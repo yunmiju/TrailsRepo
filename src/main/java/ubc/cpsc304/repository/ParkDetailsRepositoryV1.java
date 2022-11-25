@@ -22,7 +22,7 @@ public class ParkDetailsRepositoryV1 implements ParkDetailsRepository {
   public ParkDetailsDto parkInfoById(Integer parkId) {
     String sql =
         "SELECT " +
-            "parks.id, "
+            "DISTINCT(parks.id), "
             + "parks.park_name, "
             + "parks.park_address, "
             + "parks.open_hour, "
@@ -31,7 +31,11 @@ public class ParkDetailsRepositoryV1 implements ParkDetailsRepository {
             + "centers.email, "
             + "centers.center_address, "
             + "p.province_name, "
-            + "p.country_name "
+            + "p.country_name, "
+            + "(SELECT COUNT(DISTINCT program_info.id) "
+            +    "FROM program_info "
+            +      "WHERE program_info.visitor_center_id = centers.id "
+            +      "GROUP BY centers.id) AS programNums "
             + "FROM parks "
             + "LEFT OUTER JOIN restricted_park on parks.id = restricted_park.id "
             + "LEFT OUTER JOIN public_park on parks.id = public_park.id "
