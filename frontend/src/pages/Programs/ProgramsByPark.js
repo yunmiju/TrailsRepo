@@ -58,7 +58,7 @@ function ProgramsByPark() {
 
   useEffect(() => {
     if (isUpdated) {
-      programApi();
+      parkDetailsApi();
       setIsUpdated(false);
     }
   }, [isUpdated]);
