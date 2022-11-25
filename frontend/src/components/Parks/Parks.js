@@ -25,7 +25,17 @@ function Parks() {
 }
 
 const Wrapper = styled.div``;
-const Section = styled.section``;
+const Section = styled.section`
+  width: 90vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
+  // padding: 10px;
+  background-color: white;
+  border-radius: 11px;
+  box-shadow: 2px 5px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+`;
 const ParkWrapper = styled.div`
   width: 100%;
   display: flex;

@@ -65,4 +65,12 @@ public class RestrictedParkRepositoryV1 extends ParkRepositoryV1{
                 "where R.PERMIT_TYPE = ?";
         return jdbcTemplate.query(sql, new ParkCombineMapper(), permitType);
     }
+
+    public int getByPermitTypeCombAgg(String permitType){
+        String sql = "select COUNT(*) " +
+                "from Restricted_park R INNER JOIN Parks P ON P.id = R.id " +
+                "GROUP BY R.PERMIT_TYPE " +
+                "HAVING R.PERMIT_TYPE = ?";
+        return jdbcTemplate.queryForObject(sql, Integer.class, permitType);
+    }
 }
