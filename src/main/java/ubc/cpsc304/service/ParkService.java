@@ -76,6 +76,22 @@ public class ParkService {
         }
     }
 
+    public int getParksByFilterAgg(String f1, String f2) {
+        List<ParkA> filtered = new ArrayList<>();
+        if(f1.equals("RESTRICTED_PARK")) {
+            return restrictParkRepo.getByPermitTypeCombAgg(f2);
+        } else if (f1.equals("PUBLIC_PARK")){
+            return publicParkRepo.getByCampingSiteCombAgg(Boolean.parseBoolean(f2));
+        } else if (f1.equals("PROVINCE")) {
+            return parkRepo.getByProvinceNameAgg(f2);
+        } else if (f1.equals("OPENHOUR")) {
+            return parkRepo.getByOpenHourAgg(f2);
+        } else{
+            return parkRepo.getByCloseHourAgg(f2);
+        }
+    }
+
+
     public List<ParkA> combineParksByProvinceName(String provinceName) {
         List<ParkA> parks = new ArrayList<>();
         parks.addAll(publicParkRepo.getByProvinceNameProj(provinceName));

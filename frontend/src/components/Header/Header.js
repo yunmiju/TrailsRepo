@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPersonHiking } from '@fortawesome/free-solid-svg-icons';
 
 function Header() {
   return (
@@ -7,9 +9,14 @@ function Header() {
       <HeaderWrapper>
         <HeaderInfo>
           <Name>
-            <span>" HELLO "</span>
+            <FontAwesomeIcon
+              icon={faPersonHiking}
+              size="2x"
+              className="hover:text-red-500"
+            />
+            <span> WELLCOME TO TRAILS REPO </span>
           </Name>
-          <Img></Img>
+          <Img />
         </HeaderInfo>
       </HeaderWrapper>
     </HeaderContainer>

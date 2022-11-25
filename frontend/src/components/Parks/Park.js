@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faPersonHiking,
+  faMountainSun,
+} from '@fortawesome/free-solid-svg-icons';
 import styled from 'styled-components';
 import ParkImage from './ParkImage';
 import axios from 'axios';
 import BASE_URL from '../../config';
-import AdditionalData from './AdditionalData';
 function Park(props) {
   const { park } = props;
   const [provinceName, setProvinceName] = useState();
   const [countryName, setCountryName] = useState();
-  // console.log('provinceId', park.provinceId);
-
   const provinceGetter = async () => {
     await axios
       .get(`${BASE_URL}/parks/provinceName/${park.provinceId}`, {
@@ -19,7 +21,6 @@ function Park(props) {
       })
       .then(response => {
         setProvinceName(response.data);
-        // console.log(provinceName);
         countryGetter();
       })
       .catch(e => console.log(e));
@@ -34,7 +35,6 @@ function Park(props) {
       })
       .then(response => {
         setCountryName(response.data);
-        // console.log(park.campingSite);
       })
       .catch(e => console.log(e));
   };
@@ -66,18 +66,52 @@ function Park(props) {
                 )}
               </Additional>
             </TitleBox>
-            <Details>
-              <span className="key">ADDRESS:</span>
-              <span className="val">{park.parkAddress}</span>
-              <span className="key">OPEN: </span>
-              <span className="val">
-                {park.openHour} - {park.closeHour}
-              </span>
-              <span className="key">Country: </span>
-              <span className="val">{countryName}</span>
-              <span className="key">Province: </span>
-              <span className="val">{provinceName}</span>
-            </Details>
+            <DetailsBox>
+              <Details>
+                <span className="key">ADDRESS:</span>
+                <span className="val">{park.parkAddress}</span>
+                <span className="key">OPEN: </span>
+                <span className="val">
+                  {park.openHour} - {park.closeHour}
+                </span>
+                <span className="key">Country: </span>
+                <span className="val">{countryName}</span>
+                <span className="key">Province: </span>
+                <span className="val">{provinceName}</span>
+              </Details>
+              <ButtonDetails>
+                <Button
+                  onClick={() =>
+                    (window.location.href = `/park/${park.id}/programs`)
+                  }
+                  variant="contained"
+                  disableElevation
+                >
+                  Browse Programs
+                  <FontAwesomeIcon
+                    icon={faPersonHiking}
+                    size="2x"
+                    className="hover:text-red-500"
+                    shake
+                  />
+                </Button>
+                <Button
+                  onClick={() =>
+                    (window.location.href = `/park/${park.id}/trails`)
+                  }
+                  variant="contained"
+                  disableElevation
+                >
+                  Browse Trails
+                  <FontAwesomeIcon
+                    icon={faMountainSun}
+                    size="2x"
+                    className="hover:text-red-500"
+                    shake
+                  />
+                </Button>
+              </ButtonDetails>
+            </DetailsBox>
           </Context>
         </Content>
       </Section>
@@ -85,9 +119,35 @@ function Park(props) {
   );
 }
 
+const Button = styled.button`
+  margin: 5px;
+  border: none;
+  width: 60%;
+  justify-content: center;
+  cursor: pointer;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: var(--button-font-size, 1rem);
+  padding: var(--button-padding, 12px 16px);
+  border-radius: var(--button-radius, 8px);
+  background: var(--button-bg-color, #b6b6b6);
+  color: var(--button-color, #ffffff);
+
+  &:active,
+  &:hover,
+  &:focus {
+    background: var(--button-hover-bg-color, #025ce2);
+  }
+  &:disabled {
+    cursor: default;
+    opacity: 0.5;
+    background: var(--button-bg-color, #025ce2);
+  }
+`;
+
 const Wrapper = styled.div`
   width: 100%;
   display: flex;
+  margin-bottom: 50px;
 `;
 
 const Section = styled.section`
@@ -99,6 +159,8 @@ const Content = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
+  justify-contents: center;
+  align-items: center;
 `;
 
 const Context = styled.div`
@@ -109,8 +171,11 @@ const Context = styled.div`
 
 const ImageBox = styled.div`
   width: 60%;
+  margin-right: 40px;
   display: flex;
   flex-direction: column;
+  justify-contents: center;
+  align-items: center;
 `;
 
 const TitleBox = styled.div`
@@ -124,7 +189,7 @@ const Title = styled.title`
   display: flex;
   flex-direction: column;
   span {
-    padding-top: 15px;
+    // padding-top: 15px;
     font-size: 28px;
     font-weight: 600;
   }
@@ -142,6 +207,22 @@ const Additional = styled.div`
   }
 `;
 
+const DetailsBox = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  span.key {
+    padding-top: 20px;
+    font-size: 18px;
+    font-weight: 700;
+  }
+  span.val {
+    padding-top: 5px;
+    font-size: 15px;
+    font-weight: 500;
+  }
+`;
+
 const Details = styled.div`
   width: 100%;
   display: flex;
@@ -156,6 +237,17 @@ const Details = styled.div`
     font-size: 15px;
     font-weight: 500;
   }
+`;
+
+const ButtonDetails = styled.div`
+  margin-top: 10px;
+  width: 100%;
+  height: 70%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
 `;
 
 export default Park;
