@@ -16,9 +16,8 @@ function Router() {
       {/*<ScrollTop />*/}
       {/*<Header />*/}
       <Routes>
-        {/*<Route path="/" element={<Home />} />*/}
-        <Route path="/" element={<ParksAll />} />
-        <Route path="/programs" element={<ProgramsByPark />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/park/:parkId/programs" element={<ProgramsByPark />} />
       </Routes>
       {/*<Footer />*/}
     </BrowserRouter>

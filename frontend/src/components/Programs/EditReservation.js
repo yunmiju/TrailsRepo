@@ -20,8 +20,9 @@ function Reservation({ openModal, setModal }) {
   const [cond, setCond] = useState('');
   const [reservations, setReservations] = useState([]);
   const [reservation, setReservation] = useState();
+  const [reservationInfo, setReservationInfo] = useState();
+  const [programId, setProgramId] = useState('');
   const [programName, setProgramName] = useState('');
-  const [programId, setProgramId] = useState();
   const [isReservationNumValid, setReservationNumberValidity] = useState(false);
   const [updateRequestObj, setUpdateRequestObj] = useState({});
   const [editedMsg, setEditedMsg] = useState('');
@@ -56,6 +57,7 @@ function Reservation({ openModal, setModal }) {
         setEmail(response.data[0]['email']);
         setPpl(response.data[0]['ppl']);
         setProgramId(response.data[0]['programId']);
+        setProgramName(response.data[0]['programName']);
         setFound(true);
       })
       .catch(error => {
@@ -200,9 +202,9 @@ function Reservation({ openModal, setModal }) {
                 <>
                   <Section>
                     <SocialLine />
-                    <Title># PROGRAM ID #</Title>
+                    <Title># PROGRAM NAME #</Title>
                     <EditContainer>
-                      <ProgramName>{programId}</ProgramName>
+                      <ProgramName>{programName}</ProgramName>
                     </EditContainer>
                   </Section>
                   <Section>

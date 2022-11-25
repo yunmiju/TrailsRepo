@@ -3,17 +3,13 @@ package ubc.cpsc304.repository;
 import java.util.List;
 import javax.sql.DataSource;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.*;
+import org.springframework.jdbc.core.namedparam.*;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.util.StringUtils;
 import ubc.cpsc304.domain.ProgramReservation;
 import ubc.cpsc304.repository.DTO.ProgramReservationSearchCond;
+import ubc.cpsc304.repository.DTO.ReservationInfoDto;
 import ubc.cpsc304.repository.DTO.ReservationRequestDto;
 
 @Slf4j
@@ -33,7 +29,8 @@ public class ProgramReservationRepositoryV2 implements ProgramReservationReposit
 
   @Override
   public ProgramReservation save(ProgramReservation programReservation) {
-    // SqlParameterSource param = new BeanPropertySqlParameterSource(programReservation);
+    // SqlParameterSource param = new
+    // BeanPropertySqlParameterSource(programReservation);
     // Number key = jdbcInsert.executeAndReturnKey(param);
     // programReservation.setId(key.intValue());
 
@@ -78,13 +75,27 @@ public class ProgramReservationRepositoryV2 implements ProgramReservationReposit
   }
 
   @Override
-  public List<ProgramReservation> findAll(ProgramReservationSearchCond cond) {
+  public ReservationInfoDto findInfoByReservationNumber(String reservationNumber) {
+    String sql = "SELECT p.program_id, reservation_number, program_name, email, ppl " +
+        "FROM program_reservation p " +
+        "JOIN program_info pi ON p.program_id = pi.id " +
+        "WHERE reservation_number=:reservationNumber";
+    SqlParameterSource param = new MapSqlParameterSource()
+        .addValue("reservationNumber", reservationNumber);
+    ReservationInfoDto updated = template.queryForObject(sql, param, reservationInfoDtoRowMapper());
+    return updated;
+  }
+
+  @Override
+  public List<ReservationInfoDto> findAll(ProgramReservationSearchCond cond) {
     String reservationNumber = cond.getReservationNumber();
     String email = cond.getEmail();
 
     SqlParameterSource param = new BeanPropertySqlParameterSource(cond);
 
-    String sql = "select * from program_reservation ";
+    String sql = "SELECT p.program_id, reservation_number, program_name, email, ppl " +
+        "FROM program_reservation p " +
+        "JOIN program_info pi ON p.program_id = pi.id";
 
     if (StringUtils.hasText(reservationNumber) || StringUtils.hasText(email)) {
       sql += " where";
@@ -92,7 +103,7 @@ public class ProgramReservationRepositoryV2 implements ProgramReservationReposit
 
     boolean andFlag = false;
     if (StringUtils.hasText(reservationNumber)) {
-      sql += " reservation_number = :reservationNumber";
+      sql += " p.reservation_number = :reservationNumber";
       andFlag = true;
     }
 
@@ -100,15 +111,19 @@ public class ProgramReservationRepositoryV2 implements ProgramReservationReposit
       if (andFlag) {
         sql += " and";
       }
-      sql += " email =:email";
+      sql += " p.email =:email";
     }
 
     log.info("sql={}", sql);
 
-    return template.query(sql, param, programReservationRowMapper());
+    return template.query(sql, param, reservationInfoDtoRowMapper());
   }
 
   private RowMapper<ProgramReservation> programReservationRowMapper() {
     return BeanPropertyRowMapper.newInstance(ProgramReservation.class);
+  }
+
+  private RowMapper<ReservationInfoDto> reservationInfoDtoRowMapper() {
+    return BeanPropertyRowMapper.newInstance(ReservationInfoDto.class);
   }
 }

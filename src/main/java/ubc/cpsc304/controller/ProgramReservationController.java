@@ -7,22 +7,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import ubc.cpsc304.advice.ApiException;
 import ubc.cpsc304.advice.ExceptionResponse;
 import ubc.cpsc304.domain.ProgramReservation;
 import ubc.cpsc304.repository.DTO.ProgramReservationSearchCond;
+import ubc.cpsc304.repository.DTO.ReservationInfoDto;
 import ubc.cpsc304.repository.DTO.ReservationRequestDto;
 import ubc.cpsc304.service.ProgramReservationService;
 
@@ -42,16 +33,15 @@ public class ProgramReservationController {
   }
 
   @PatchMapping("update")
-  public ProgramReservation updateReservation(@RequestBody ReservationRequestDto param) {
+  public ReservationInfoDto updateReservation(@RequestBody ReservationRequestDto param) {
     return programReservationService.update(param);
   }
 
   @GetMapping("find")
-  public List<ProgramReservation> findReservationByCond(
+  public List<ReservationInfoDto> findReservationByCond(
       @ModelAttribute ProgramReservationSearchCond cond) {
     return programReservationService.findByCond(cond);
   }
-
 
   @PutMapping("delete/{reservationNumber}")
   public String deleteReservation(@PathVariable String reservationNumber) {
@@ -70,27 +60,30 @@ public class ProgramReservationController {
     return "test!";
   }
 
-//    @ExceptionHandler(ApiException.class)
-//  public ResponseEntity<String> handleNoSuchElementFoundException(ApiException exception) {
-//    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
-//  }
+  // @ExceptionHandler(ApiException.class)
+  // public ResponseEntity<String> handleNoSuchElementFoundException(ApiException
+  // exception) {
+  // return
+  // ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
+  // }
 
-//  @ExceptionHandler({ApiException.class})
-//  protected ResponseEntity<String> handleCustomcException(ApiException e) {
-//    System.out.println("handleCustomException throw CustomException : {}" + e);
-//    return ResponseEntity.status(e.getError().getStatus()).body(e.getError().getMessage());
-//    //return new ResponseEntity<Object>(e.getError().getStatus(), e.getError().getStatus());
-//  }
+  // @ExceptionHandler({ApiException.class})
+  // protected ResponseEntity<String> handleCustomcException(ApiException e) {
+  // System.out.println("handleCustomException throw CustomException : {}" + e);
+  // return
+  // ResponseEntity.status(e.getError().getStatus()).body(e.getError().getMessage());
+  // //return new ResponseEntity<Object>(e.getError().getStatus(),
+  // e.getError().getStatus());
+  // }
 
   @ExceptionHandler(ApiException.class)
   public ResponseEntity<ExceptionResponse> handleUserNotFoundException(ApiException ex,
       WebRequest request) {
-    final ExceptionResponse exceptionResponse =
-        new ExceptionResponse(ex.getError().getCode(), ex.getMessage());
+    final ExceptionResponse exceptionResponse = new ExceptionResponse(ex.getError().getCode(), ex.getMessage());
     ResponseEntity.BodyBuilder builder;
     builder = ResponseEntity.status(ex.getError().getStatus());
     System.out.println("exceptionRespons : " + exceptionResponse);
-    //return new ResponseEntity<String>("hi", ex.getError().getStatus());
+    // return new ResponseEntity<String>("hi", ex.getError().getStatus());
     return builder.body(exceptionResponse);
   }
 }

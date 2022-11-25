@@ -15,7 +15,7 @@ function Footer() {
     setModal(true);
   };
   const goToHome = () => {
-    navigate('/programs');
+    navigate('/');
   };
 
   return (
@@ -27,7 +27,7 @@ function Footer() {
             <FooterIcon>
               <PatchQuestion onClick={openModal} />
             </FooterIcon>
-            <IconTitle>??</IconTitle>
+            <IconTitle>Search</IconTitle>
           </div>
           <div>
             <FooterIcon>
