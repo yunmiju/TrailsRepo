@@ -2,6 +2,7 @@ package ubc.cpsc304.service;
 
 import ubc.cpsc304.domain.Seasons;
 import ubc.cpsc304.domain.TrailInfo;
+import ubc.cpsc304.repository.DTO.TrailDto;
 import ubc.cpsc304.repository.TrailRepository;
 
 import javax.sql.DataSource;
@@ -15,8 +16,8 @@ public class TrailService {
         trailRepository = new TrailRepository(dataSource);
     }
 
-    public List<TrailInfo> getAllTrails(int parkId) {
-        List<TrailInfo> trails = new ArrayList<>();
+    public List<TrailDto> getAllTrails(int parkId) {
+        List<TrailDto> trails = new ArrayList<>();
         trails.addAll(trailRepository.getByParkId(parkId));
         return trails;
     }

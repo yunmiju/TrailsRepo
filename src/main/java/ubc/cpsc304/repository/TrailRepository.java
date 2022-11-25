@@ -57,6 +57,8 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import ubc.cpsc304.repository.DTO.TrailDto;
 
+import java.util.List;
+
 @Slf4j
 public class TrailRepository {
     private final NamedParameterJdbcTemplate template;
@@ -88,6 +90,10 @@ public class TrailRepository {
                 .addValue("trailName", trailName);
         return template.queryForObject(sql, param, trailRowMapper());
     }
+
+//    public List<TrailDto> getByParkId(int parkId) {
+//        String sql =
+//    }
 
     private RowMapper<TrailDto> trailRowMapper() {
         return BeanPropertyRowMapper.newInstance(TrailDto.class);
