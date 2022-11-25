@@ -50,7 +50,7 @@ function ParkFilterOne(props) {
           variant="contained"
           disableElevation
         >
-          Reset
+          <Span>RESET</Span>
           <FontAwesomeIcon icon={faArrowRotateBackward} />
         </Button>
         {(firstFilter == 'init') | (firstFilter == '------') ? (
@@ -58,7 +58,7 @@ function ParkFilterOne(props) {
         ) : (
           <ParkFilterTwo secondFilters={secondFilters} />
         )}
-        <select id="firstFilter" onChange={handleChange}>
+        <Select id="firstFilter" onChange={handleChange}>
           <option>------</option>
           {firstFilters.map(filter => (
             <option key={filter} value={filter}>
@@ -66,8 +66,8 @@ function ParkFilterOne(props) {
               {filter}
             </option>
           ))}
-        </select>
-        <span> {count} </span>
+        </Select>
+        <Span> RESULT : ( {count} ) </Span>
       </Section>
     </Wrapper>
   );
@@ -96,6 +96,10 @@ const Button = styled.button`
     opacity: 0.5;
     background: var(--button-bg-color, #025ce2);
   }
+`;
+
+const Select = styled.select`
+  margin-right: 10px;
 `;
 
 const Section = styled.section`
@@ -132,4 +136,9 @@ const select = styled.div`
   flex-direction: column;
 `;
 
+const Span = styled.span`
+  font-size: 15px;
+  font-color: #025ce2;
+  font-family: 'Source-Sans-Pro', sans-serif;
+`;
 export default ParkFilterOne;
