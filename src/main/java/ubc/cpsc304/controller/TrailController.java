@@ -1,2 +1,4 @@
-package ubc.cpsc304.controller;public class TrailController {
+package ubc.cpsc304.controller;
+
+public class TrailController {
 }

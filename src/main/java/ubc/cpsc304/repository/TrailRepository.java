@@ -67,16 +67,41 @@ public class TrailRepository {
         this.template = new NamedParameterJdbcTemplate(dataSource);
     }
 
-    public TrailDto trailInfoByParkIdAndTrailName(int id, String trailName) {
+//    public TrailDto trailInfoByParkIdAndTrailName(int parkId,
+//                                                  String trailName) {
+//        String sql =
+//                "SELECT " +
+//                        "parks.id, " +
+//                        "trail_info.trail_name, " +
+//                        "trail_info.difficulty, " +
+//                        "trail_level.duration, " +
+//                        "trail_info.distance, " +
+//                        "trail_info.trail_description, " +
+//                        "trail_image.image_url " +
+//                        "FROM trail_info " +
+//                        "LEFT JOIN trail_image img on trail_info.trail_name =" +
+//                        " img.trail_name " +
+//                        "LEFT JOIN trail_level lvl on trail_info.distance = " +
+//                        "lvl.distance AND trail_info.difficulty = lvl" +
+//                        ".difficulty " +
+//                        "JOIN parks p on p.id = trail_info.park_id " +
+//                        "WHERE park_id=:parkId AND trail_name=:trailName";
+//        SqlParameterSource param = new MapSqlParameterSource()
+//                .addValue("parkId", parkId)
+//                .addValue("trailName", trailName);
+//        return template.queryForObject(sql, param, trailRowMapper());
+//    }
+
+    public List<TrailDto> getByParkId(int parkId) {
         String sql =
                 "SELECT " +
-                        "parks.id, " +
+                        "p.id, " +
                         "trail_info.trail_name, " +
                         "trail_info.difficulty, " +
-                        "trail_level.duration, " +
+                        "lvl.duration, " +
                         "trail_info.distance, " +
                         "trail_info.trail_description, " +
-                        "trail_image.image_url " +
+                        "img.image_url " +
                         "FROM trail_info " +
                         "LEFT JOIN trail_image img on trail_info.trail_name =" +
                         " img.trail_name " +
@@ -84,18 +109,15 @@ public class TrailRepository {
                         "lvl.distance AND trail_info.difficulty = lvl" +
                         ".difficulty " +
                         "JOIN parks p on p.id = trail_info.park_id " +
-                        "WHERE park_id=:parkId AND trail_name=:trailName";
+                        "WHERE park_id=:parkId";
         SqlParameterSource param = new MapSqlParameterSource()
-                .addValue("id", id)
-                .addValue("trailName", trailName);
-        return template.queryForObject(sql, param, trailRowMapper());
+                .addValue("parkId", parkId);
+        return template.query(sql, param, trailRowMapper());
     }
-
-//    public List<TrailDto> getByParkId(int parkId) {
-//        String sql =
-//    }
 
     private RowMapper<TrailDto> trailRowMapper() {
         return BeanPropertyRowMapper.newInstance(TrailDto.class);
     }
+
+    public List<TrailDto> divisionBySeason()
 }
