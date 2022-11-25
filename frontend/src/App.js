@@ -6,7 +6,7 @@ export const ParkIdContext = createContext({
   setParkId: () => {},
 });
 function App() {
-  const parkIdState = useState(101);
+  const parkIdState = useState(-1);
 
   return (
     <ParkIdContext.Provider value={parkIdState}>
