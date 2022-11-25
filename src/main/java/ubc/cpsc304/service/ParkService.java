@@ -1,9 +1,6 @@
 package ubc.cpsc304.service;
 import ubc.cpsc304.domain.ParkA;
-import ubc.cpsc304.repository.ParkRepositoryV1;
-import ubc.cpsc304.repository.PublicParkRepositoryV1;
-import ubc.cpsc304.repository.RestrictedParkRepositoryV1;
-import ubc.cpsc304.repository.TrailsImageRepositoryV1;
+import ubc.cpsc304.repository.*;
 
 import javax.sql.DataSource;
 import java.util.ArrayList;
@@ -16,12 +13,14 @@ public class ParkService {
     private RestrictedParkRepositoryV1 restrictParkRepo;
     private PublicParkRepositoryV1 publicParkRepo;
     private TrailsImageRepositoryV1 trailsImageRepositoryV1;
+    private ProvinceRepositoryV1 provinceRepositoryV1;
 
     public ParkService(DataSource dataSource) {
         parkRepo = new ParkRepositoryV1(dataSource);
         restrictParkRepo = new RestrictedParkRepositoryV1(dataSource);
         publicParkRepo = new PublicParkRepositoryV1(dataSource);
         trailsImageRepositoryV1 = new TrailsImageRepositoryV1(dataSource);
+        provinceRepositoryV1 = new ProvinceRepositoryV1(dataSource);
     }
 
     public List<ParkA> getAllParks() {
@@ -91,6 +90,14 @@ public class ParkService {
 
     public ParkA getParkById(int id) {
         return parkRepo.getById(id);
+    }
+
+    public String getProvinceName(int provinceId) {
+        return provinceRepositoryV1.getProvinceName(provinceId);
+    }
+
+    public String getCountryName(int provinceId) {
+        return provinceRepositoryV1.getCountryName(provinceId);
     }
 
     public List<ParkA> getParksByProvince(int provId) {

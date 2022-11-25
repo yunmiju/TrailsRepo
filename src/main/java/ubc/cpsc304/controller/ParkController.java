@@ -12,10 +12,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "https://localhost:8080")
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/parks")
+@RequestMapping("parks")
+
 public class ParkController {
     private final ParkService parkService;
 
@@ -27,6 +28,16 @@ public class ParkController {
     @GetMapping("/{parkId}")
     public Optional<ParkA> getParkById(@PathVariable int parkId ) {
         return Optional.ofNullable(parkService.getParkById(parkId));
+    }
+
+    @GetMapping("/provinceName/{provinceId}")
+    public String getProvinceName(@PathVariable int provinceId) {
+        return parkService.getProvinceName(provinceId);
+    }
+
+    @GetMapping("/countryName/{provinceId}")
+    public String getCountryName(@PathVariable int provinceId) {
+        return parkService.getCountryName(provinceId);
     }
 
 //    @GetMapping

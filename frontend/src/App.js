@@ -5,9 +5,9 @@ export const ParkIdContext = createContext({
   parkId: -1,
   setParkId: () => {},
 });
+
 function App() {
   const parkIdState = useState(101);
-
   return (
     <ParkIdContext.Provider value={parkIdState}>
       <Router />
