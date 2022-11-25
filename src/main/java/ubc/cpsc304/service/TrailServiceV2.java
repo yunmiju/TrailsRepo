@@ -16,12 +16,15 @@ import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
+@RequiredArgsConstructor
+@Transactional
 public class TrailServiceV2 implements TrailService {
     private final TrailRepository trailRepository;
 
-    public TrailServiceV2(DataSource dataSource) {
-        trailRepository = new TrailRepository(dataSource);
-    }
+//    public TrailServiceV2(DataSource dataSource) {
+//        trailRepository = new TrailRepository(dataSource);
+//    }
 
     @Override
     public List<TrailDto> getAllTrails(int parkId) {
@@ -34,5 +37,25 @@ public class TrailServiceV2 implements TrailService {
         }
     }
 
-    public List<TrailDto> getAllTrails
+    // TODO: divisionBySeason() from TrailRepository is itself not working!
+    public List<TrailDto> trailsDivision(int parkId) {
+        try {
+            List<TrailDto> trails = new ArrayList<>();
+            trails.addAll(trailRepository.divisionBySeason(parkId));
+            return trails;
+        } catch (DataAccessException e) {
+            throw new ApiException(ExceptionEnum.EMPTY_RESULT);
+        }
+    }
+
+    // TODO:
+    public boolean hasHuts(String trailName, int parkId) {
+        try {
+            TrailDto trail;
+            trail = trailRepository.numOfHuts(trailName, parkId);
+            return trail != null;
+        } catch (DataAccessException e) {
+            throw new ApiException(ExceptionEnum.EMPTY_RESULT);
+        }
+    }
 }

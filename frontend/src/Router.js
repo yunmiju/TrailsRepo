@@ -9,6 +9,7 @@ import Footer from './components/Footer/Footer';
 import { parkContext } from './context/ParkContext';
 import axios from 'axios';
 import BASE_URL from './config';
+import TrailsByPark from './pages/Trails/TrailsByPark';
 
 function Router() {
   return (
@@ -19,6 +20,7 @@ function Router() {
         {/*<Route path="/" element={<Home />} />*/}
         <Route path="/" element={<ParksAll />} />
         <Route path="/park/:parkId/programs" element={<ProgramsByPark />} />
+        <Route path="/park/:parkId/trails" element={<TrailsByPark />} />
       </Routes>
       <Footer />
     </BrowserRouter>
