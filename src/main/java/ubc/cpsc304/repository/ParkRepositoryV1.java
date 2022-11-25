@@ -54,10 +54,25 @@ public class ParkRepositoryV1 {
         return jdbcTemplate.query(sql, new ParkMapper(), openHour);
     }
 
+    public int getByOpenHourAgg(String openHour) {
+        String sql = "select COUNT(*) from Parks " +
+                "GROUP BY open_hour " +
+                "HAVING open_hour = ?";
+        return jdbcTemplate.queryForObject(sql, Integer.class, openHour);
+    }
+
     public List<ParkA> getByCloseHour(String closeHour) {
         String sql = "select * from Parks where close_hour = ?";
         return jdbcTemplate.query(sql, new ParkMapper(), closeHour);
     }
+
+    public int getByCloseHourAgg(String closeHour) {
+        String sql = "select COUNT(*) from Parks " +
+                "GROUP BY close_hour " +
+                "HAVING close_hour = ?";
+        return jdbcTemplate.queryForObject(sql, Integer.class, closeHour);
+    }
+
 
     public List<String> getProvinceProj() {
         String sql = "select DISTINCT province_name from Parks INNER JOIN Provinces ON parks.province_id = provinces.id";
@@ -83,6 +98,11 @@ public class ParkRepositoryV1 {
         return jdbcTemplate.query(sql, new ParkMapper(), provinceName);
     }
 
+    public int getByProvinceNameAgg(String provinceName) {
+        String sql = "select COUNT(*) from Parks " +
+                "WHERE province_id = (select id from Provinces where province_name = ?)";
+        return jdbcTemplate.queryForObject(sql, Integer.class, provinceName);
+    }
 
     public List<ParkA> getByCountry(String countryName) {
         String sql = "select P.id, P.province_id, P.park_name, P.park_address, P.open_hour, P.close_hour " +

@@ -63,10 +63,18 @@ public class ParkController {
         return parkService.getParksByFilter(firstFilter, secondFilter);
     }
 
+    @GetMapping("/filter/count")
+    @ResponseBody
+    public int selectCount(@RequestParam String firstFilter, @RequestParam String secondFilter) {
+        return parkService.getParksByFilterAgg(firstFilter, secondFilter);
+    }
+
+
     @GetMapping("/image/{parkId}")
     @ResponseBody
     public List<String> getImage(@PathVariable int parkId) {
         return parkService.getImages(parkId);
     }
+
 }
 

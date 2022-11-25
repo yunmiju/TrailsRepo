@@ -1,17 +1,20 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { filterOne } from '../../context/ParkContext';
+import { filterOne, filterTwo, parkCount } from '../../context/ParkContext';
 import styled from 'styled-components';
-
-import Dropdown from 'react-dropdown';
+import { faArrowRotateBackward } from '@fortawesome/free-solid-svg-icons';
 import EmptyParkFilterTwo from './EmptyParkFilterTwo';
 import ParkFilterTwo from './ParkFilterTwo';
 import axios from 'axios';
 import BASE_URL from '../../config';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMountainSun } from '@fortawesome/free-solid-svg-icons';
 
 function ParkFilterOne(props) {
   const { firstFilter, setFirstFilter } = useContext(filterOne);
   const [secondFilters, setSecondFilters] = useState();
+  const { secondFilter, setSecondFilter } = useContext(filterTwo);
   const { firstFilters } = props;
+  const { count, setCount } = useContext(parkCount);
 
   const secondFilterGetter = async () => {
     console.log('firstFilter', firstFilters);
@@ -39,24 +42,73 @@ function ParkFilterOne(props) {
 
   return (
     <Wrapper>
-      {(firstFilter == 'init') | (firstFilter == '------') ? (
-        <EmptyParkFilterTwo />
-      ) : (
-        <ParkFilterTwo secondFilters={secondFilters} />
-      )}
-      <select id="firstFilter" onChange={handleChange}>
-        <option>------</option>
-        {firstFilters.map(filter => (
-          <option key={filter} value={filter}>
-            {' '}
-            {filter}
-          </option>
-        ))}
-      </select>
+      <Section>
+        <Button
+          onClick={() => {
+            setSecondFilter('init');
+          }}
+          variant="contained"
+          disableElevation
+        >
+          Reset
+          <FontAwesomeIcon icon={faArrowRotateBackward} />
+        </Button>
+        {(firstFilter == 'init') | (firstFilter == '------') ? (
+          <EmptyParkFilterTwo />
+        ) : (
+          <ParkFilterTwo secondFilters={secondFilters} />
+        )}
+        <select id="firstFilter" onChange={handleChange}>
+          <option>------</option>
+          {firstFilters.map(filter => (
+            <option key={filter} value={filter}>
+              {' '}
+              {filter}
+            </option>
+          ))}
+        </select>
+        <span> {count} </span>
+      </Section>
     </Wrapper>
   );
 }
 
+const Button = styled.button`
+  margin: 5px;
+  border: none;
+  width: 100px;
+  justify-content: center;
+  cursor: pointer;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: var(--button-font-size, 1rem);
+  padding: var(--button-padding, 12px 16px);
+  border-radius: var(--button-radius, 8px);
+  background: transparent;
+  color: #444444
+
+  &:active,
+  &:hover,
+  &:focus {
+    background: var(--button-hover-bg-color, #025ce2);
+  }
+  &:disabled {
+    cursor: default;
+    opacity: 0.5;
+    background: var(--button-bg-color, #025ce2);
+  }
+`;
+
+const Section = styled.section`
+  width: 90vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
+  padding: 10px;
+  background-color: white;
+  border-radius: 11px;
+  box-shadow: 2px 5px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+`;
 const Wrapper = styled.div`
   width: 100%;
   height: 100px;
