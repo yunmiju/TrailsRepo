@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -75,6 +76,13 @@ public class ParkController {
     public List<String> getImage(@PathVariable int parkId) {
         return parkService.getImages(parkId);
     }
+
+    @GetMapping("/filter/count/{provinceId}")
+    @ResponseBody
+    public int getProvinceCount(@PathVariable int provinceId) {
+        return parkService.getCountByProvinceId(provinceId);
+    }
+
 
 }
 
