@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static ubc.cpsc304.database.ConnectionConst.*;
+//import static ubc.cpsc304.database.ConnectionConst.*;
 
 @Slf4j
 public class VisitorCenterRepositoryV1Test {
