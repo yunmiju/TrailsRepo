@@ -17,16 +17,16 @@ import static ubc.cpsc304.database.ConnectionConst.*;
 public class ParkRepositoryV1Test {
     ParkRepositoryV1 parkRepositoryV1;
 
-//    @BeforeEach
-//    void beforeEach(){
-//        HikariDataSource dataSource = new HikariDataSource();
-//        dataSource.setJdbcUrl(ORACLE_URL);
-//        dataSource.setUsername(USER_NAME);
-//        dataSource.setPassword(PASSWORD);
-//        dataSource.setMaximumPoolSize(10);
-//        dataSource.setPoolName("MyPool");
-//        parkRepositoryV1 = new ParkRepositoryV1(dataSource);
-//    }
+    @BeforeEach
+    void beforeEach(){
+        HikariDataSource dataSource = new HikariDataSource();
+        dataSource.setJdbcUrl(ORACLE_URL);
+        dataSource.setUsername(USER_NAME);
+        dataSource.setPassword(PASSWORD);
+        dataSource.setMaximumPoolSize(10);
+        dataSource.setPoolName("MyPool");
+        parkRepositoryV1 = new ParkRepositoryV1(dataSource);
+    }
 
 //    @Test
 //    void curdAdd() throws SQLException {
@@ -65,7 +65,7 @@ public class ParkRepositoryV1Test {
 //        System.out.println(s);
 //        List<String> s2 = parkRepositoryV1.getOpenHourProj();
 //        System.out.println(s2);
-//        List<String> s3 = parkRepositoryV1.getCloseHourProj();
-//        System.out.println(s3);
+        int s3 = parkRepositoryV1.getCountByProvinceId(11);
+        System.out.println(s3);
     }
 }

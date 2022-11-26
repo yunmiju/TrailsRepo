@@ -9,6 +9,8 @@ function Park(props) {
   const { park } = props;
   const [provinceName, setProvinceName] = useState();
   const [countryName, setCountryName] = useState();
+  const [provinceCount, setProvinceCount] = useState({ BC: 0 });
+
   const provinceGetter = async () => {
     await axios
       .get(`${BASE_URL}/parks/provinceName/${park.provinceId}`, {
@@ -18,7 +20,7 @@ function Park(props) {
       })
       .then(response => {
         setProvinceName(response.data);
-        countryGetter();
+        provinceCountGetter();
       })
       .catch(e => console.log(e));
   };
@@ -32,6 +34,7 @@ function Park(props) {
       })
       .then(response => {
         setCountryName(response.data);
+        provinceCountGetter();
       })
       .catch(e => console.log(e));
   };
@@ -39,6 +42,21 @@ function Park(props) {
   useEffect(() => {
     provinceGetter();
   }, []);
+
+  const provinceCountGetter = async () => {
+    await axios
+      .get(`${BASE_URL}/parks/filter/count/${park.provinceId}`, {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+        },
+      })
+      .then(response => {
+        setProvinceCount(response.data);
+        console.log(response.data);
+        countryGetter();
+      })
+      .catch(e => console.log(e));
+  };
 
   return (
     <Wrapper>
@@ -74,7 +92,9 @@ function Park(props) {
                 <span className="key">Country: </span>
                 <span className="val">{countryName}</span>
                 <span className="key">Province: </span>
-                <span className="val">{provinceName}</span>
+                <span className="val">
+                  {provinceName} : (curruntly registered {`${provinceCount}`})
+                </span>
               </Details>
               <ButtonDetails>
                 <Button

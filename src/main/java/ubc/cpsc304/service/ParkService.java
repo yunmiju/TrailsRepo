@@ -1,13 +1,12 @@
 package ubc.cpsc304.service;
+import org.apache.commons.lang3.tuple.Pair;
 import ubc.cpsc304.domain.ParkA;
 import ubc.cpsc304.repository.*;
 
 import javax.sql.DataSource;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
-import static java.lang.Boolean.parseBoolean;
-
 public class ParkService {
     private ParkRepositoryV1 parkRepo;
     private RestrictedParkRepositoryV1 restrictParkRepo;
@@ -92,6 +91,7 @@ public class ParkService {
     }
 
 
+
     public List<ParkA> combineParksByProvinceName(String provinceName) {
         List<ParkA> parks = new ArrayList<>();
         parks.addAll(publicParkRepo.getByProvinceNameProj(provinceName));
@@ -122,5 +122,9 @@ public class ParkService {
 
     public List<ParkA> getParksByCountry(String coun) {
         return parkRepo.getByCountry(coun);
+    }
+
+    public int getCountByProvinceId(int provinceId) {
+        return parkRepo.getCountByProvinceId(provinceId);
     }
 }

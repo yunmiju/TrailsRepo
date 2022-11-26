@@ -33,9 +33,9 @@ public class ParkServiceTest {
         dataSource.setPassword(PASSWORD);
         dataSource.setMaximumPoolSize(10);
         dataSource.setPoolName("MyPool");
-//        parkService = new ParkService(dataSource);
+        parkService = new ParkService(dataSource);
 //        restrictParkRepo = new RestrictedParkRepositoryV1(dataSource);
-        publicParkRepositoryV1 =new PublicParkRepositoryV1(dataSource);
+//        publicParkRepositoryV1 =new PublicParkRepositoryV1(dataSource);
 //        parkRepositoryV1 = new ParkRepositoryV1(dataSource);
     }
 //
@@ -59,7 +59,10 @@ public class ParkServiceTest {
 //        List<RestrictedPark> plist2 = restrictParkRepo.getByPermitTypeComb("B");
 //        System.out.println(plist2);
 
-        List<PublicPark> plist3 = publicParkRepositoryV1.getByCampingSiteComb(true);
-        System.out.println(plist3);
+//        List<PublicPark> plist3 = publicParkRepositoryV1.getByCampingSiteComb(true);
+//        System.out.println(plist3);
+
+        int test = parkService.getCountByProvinceId(11);
+        System.out.println(test);
     }
 }

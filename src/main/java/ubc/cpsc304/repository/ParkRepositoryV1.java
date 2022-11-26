@@ -2,15 +2,13 @@ package ubc.cpsc304.repository;
 
 import javax.sql.DataSource;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import ubc.cpsc304.Mapper.ParkCombineMapper;
 import ubc.cpsc304.Mapper.ParkMapper;
 import lombok.extern.slf4j.Slf4j;
-import ubc.cpsc304.Mapper.ProvinceMapper;
 import ubc.cpsc304.domain.ParkA;
 import ubc.cpsc304.domain.Parks;
-import ubc.cpsc304.domain.Provinces;
 
 
 @Slf4j
@@ -67,12 +65,16 @@ public class ParkRepositoryV1 {
     }
 
     public int getByCloseHourAgg(String closeHour) {
-        String sql = "select COUNT(*) from Parks " +
-                "GROUP BY close_hour " +
-                "HAVING close_hour = ?";
+        String sql = "select COUNT(close_hour) from Parks " +
+                "where close_hour = ? ";
         return jdbcTemplate.queryForObject(sql, Integer.class, closeHour);
     }
 
+    public List<Integer> getProvinceIdProj() {
+        String sql = "select DISTINCT province_id from Parks";
+        return jdbcTemplate.query(sql,
+                (rs, rowNum) -> rs.getInt("province_id"));
+    }
 
     public List<String> getProvinceProj() {
         String sql = "select DISTINCT province_name from Parks INNER JOIN Provinces ON parks.province_id = provinces.id";
@@ -101,8 +103,17 @@ public class ParkRepositoryV1 {
     public int getByProvinceNameAgg(String provinceName) {
         String sql = "select COUNT(*) from Parks " +
                 "WHERE province_id = (select id from Provinces where province_name = ?)";
+
         return jdbcTemplate.queryForObject(sql, Integer.class, provinceName);
     }
+
+    public int getCountByProvinceId(int provinceId) {
+        String sql = "select COUNT(*) from Parks " +
+                "Where province_id = ? " +
+                "GROUP BY province_id ";
+        return jdbcTemplate.queryForObject(sql, Integer.class, provinceId);
+    }
+
 
     public List<ParkA> getByCountry(String countryName) {
         String sql = "select P.id, P.province_id, P.park_name, P.park_address, P.open_hour, P.close_hour " +
