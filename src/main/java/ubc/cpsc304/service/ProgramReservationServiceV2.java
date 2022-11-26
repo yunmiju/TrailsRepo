@@ -27,13 +27,19 @@ public class ProgramReservationServiceV2 implements ProgramReservationService {
     programReservation.setEmail(param.getEmail());
     programReservation.setPpl(ppl);
     programReservation.setReservationNumber(generateReservationNumber());
-    return programReservationRepository.save(programReservation);
+    Integer queryResult = programReservationRepository.save(programReservation);
+    if (queryResult == 1) {
+      return programReservation;
+    } else {
+      throw new ApiException(ExceptionEnum.RUNTIME_EXCEPTION);
+    }
   }
 
-//   public Optional<ProgramReservation>
-//  public List<ProgramReservation> findByCond(ReservationRequestDto reservationRequestDto) {
-//    handleRequest(reservationRequestDto);
-//  }
+  // public Optional<ProgramReservation>
+  // public List<ProgramReservation> findByCond(ReservationRequestDto
+  // reservationRequestDto) {
+  // handleRequest(reservationRequestDto);
+  // }
 
   @Override
   public List<ReservationInfoDto> findByCond(ProgramReservationSearchCond cond) {
@@ -60,14 +66,13 @@ public class ProgramReservationServiceV2 implements ProgramReservationService {
     return reservationNumber + " has been deleted";
   }
 
-
   private void handleRequest(ReservationRequestDto reservationRequestDto) {
-//    if (!reservationRequestDto) {
-//      throw new Error();
-//    }
-//    if (!reservationRequestDto.programId || !reservationRequestDto.email) {
-//      throw new Error();
-//    }
+    // if (!reservationRequestDto) {
+    // throw new Error();
+    // }
+    // if (!reservationRequestDto.programId || !reservationRequestDto.email) {
+    // throw new Error();
+    // }
   }
 
   private void checkRequestParam(ReservationRequestDto param) {
