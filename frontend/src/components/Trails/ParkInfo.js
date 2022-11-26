@@ -69,18 +69,6 @@ function ParkInfo(props) {
                   </p>
                 </Info>
               </Location>
-              {/*<VisitorCenter>*/}
-              {/*  <Info>*/}
-              {/*    <p>Visitor Center:</p>*/}
-              {/*    <p>{centerName}</p>*/}
-              {/*    <p>Address:</p>*/}
-              {/*    <p>{centerAddress}</p>*/}
-              {/*    <p>email:</p>*/}
-              {/*    <p>{email}</p>*/}
-              {/*    <p># of Trail Offered</p>*/}
-              {/*    <p>{trailNums}</p>*/}
-              {/*  </Info>*/}
-              {/*</VisitorCenter>*/}
             </Information>
           </ParkWrapper>
         </Section>

@@ -22,50 +22,14 @@ function Trail(props) {
     setModal(true);
   };
 
-  const onDeleteHandler = () => {
-    setDeleteItem(true);
-  };
-
-  const onReserveHandler = () => {
-    // setReserve(true);
-    openModal();
-  };
-
-  // const deleteTrailApi = async () => {
-  //     await axios
-  //         .put(`${BASE_URL}/trails/delete/${trail.id}`)
-  //         .then(response => {
-  //             setMsg('Program has been deleted');
-  //             setDeleteItem(false);
-  //             props.setIsUpdated(true);
-  //         })
-  //         .catch(error => {
-  //             console.log(error);
-  //         });
-  // };
-
-  // useEffect(() => {
-  //   if (deleteItem) {
-  //     deleteProgramApi();
-  //   }
-  // }, [deleteItem]);
-
   return (
     <Wrapper>
-      {/*{modal && (*/}
-      {/*  // <Reservation*/}
-      {/*  //   openModel={openModal}*/}
-      {/*  //   setModal={setModal}*/}
-      {/*  //   setContents={setContents}*/}
-      {/*  //   trail={trail}*/}
-      {/*  // />*/}
-      {/*)}*/}
       <Section>
         <ScheduleWrapper>
           <Content>
             <ImageBox>
               <Img>
-                <img alt="" src={trail.imageURL} />
+                <img alt="" src={trail.imageUrl} />
               </Img>
             </ImageBox>
             <Context>
@@ -75,12 +39,13 @@ function Trail(props) {
                 </Title>
               </TitleBox>
               <DetailsBox>
+                <Capacity>
+                  <span>[DURATION: {trail.duration}]</span>
+                  <span>[LEVEL: {trail.difficulty}]</span>
+                </Capacity>
                 <Description>
                   <span>{trail.trailDescription}</span>
                 </Description>
-                <Capacity>
-                  <span>capacity : {trail.difficulty}</span>
-                </Capacity>
               </DetailsBox>
             </Context>
           </Content>

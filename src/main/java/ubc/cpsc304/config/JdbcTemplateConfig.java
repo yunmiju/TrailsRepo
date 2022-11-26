@@ -58,4 +58,9 @@ public class JdbcTemplateConfig {
   public TrailRepository trailRepository() {
     return new TrailRepository(dataSource);
   }
+
+  @Bean
+  public TrailImageService trailImageService() {
+    return new TrailImageService(dataSource);
+  }
 }

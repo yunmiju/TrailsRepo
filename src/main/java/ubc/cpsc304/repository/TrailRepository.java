@@ -121,13 +121,31 @@ public class TrailRepository {
     }
 
     // TODO: EXCEPT command doesn't work (need to switch to NOT EXISTS)
-    public List<TrailDto> divisionBySeason(int parkId) {
+    public List<TrailDto> divisionBySeason(int parkId, String seasonName) {
+//        String sql =
+//                "select t.trail_name from trail_season t join SEASONS s on t.season_name = s.season_name\n" +
+//                        "where not exists ((select s2.season_name from " +
+//                        "SEASONS s2 where s2.season_name=:seasonName)\n" +
+//                        "minus (select s3.season_name from SEASONS s3 where " +
+//                        "s3.season_name=t.season_name))";
+
         String sql =
-                "select t.trail_name, t.season_name from trail_season t join SEASONS s on t.season_name = s.season_name\n" +
-                        "where not exists ((select s2.season_name from " +
-                        "SEASONS s2 where s2.season_name=:parkId)\n" +
-                        "minus (select s3.season_name from SEASONS s3 where " +
-                        "s3.season_name=t.season_name))";
+                "SELECT t.trail_name " +
+                        "FROM trail_info t " +
+                        "WHERE NOT EXISTS (SELECT s.season_name " +
+                        "FROM seasons s " +
+                        "WHERE NOT EXISTS " +
+                        "(SELECT ts.season_name " +
+                        "FROM trail_season ts " +
+                        "WHERE s.season_name = ts.season_name AND s" +
+                        ".SEASON_NAME =: seasonName AND ts.park_id = t.park_id " +
+                        "AND t.park_id =: parkId))";
+//                        "on_name\n" +
+//                        "where not exists ((select s2.season_name from " +
+//                        "SEASONS s2 where s2.season_name=:seasonName)\n" +
+//                        "minus (select s3.season_name from SEASONS s3 where " +
+//                        "s3.season_name=t.season_name))";
+
 //            "SELECT " +
 //                "p.id, " +
 //                "trail_info.trail_name, " +
@@ -151,7 +169,8 @@ public class TrailRepository {
 //                    "WHERE ts.trail_name = trail_info.trail_name AND " +
 //                    "ts.park_id = trail_info.park_id))";
         SqlParameterSource param = new MapSqlParameterSource()
-                .addValue("parkId", parkId);
+                .addValue("parkId", parkId)
+                .addValue("seasonName", seasonName);
         return template.query(sql, trailRowMapper());
     }
 

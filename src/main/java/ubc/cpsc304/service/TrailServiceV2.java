@@ -11,6 +11,7 @@ import ubc.cpsc304.advice.ExceptionEnum;
 //import ubc.cpsc304.domain.TrailInfo;
 import ubc.cpsc304.repository.DTO.TrailDto;
 import ubc.cpsc304.repository.TrailRepository;
+import ubc.cpsc304.repository.TrailsImageRepositoryV1;
 
 import javax.sql.DataSource;
 import java.util.ArrayList;
@@ -38,10 +39,10 @@ public class TrailServiceV2 implements TrailService {
     }
 
     // TODO: divisionBySeason() from TrailRepository is itself not working!
-    public List<TrailDto> trailsDivision(int parkId) {
+    public List<TrailDto> trailsDivision(int parkId, String seasonName) {
         try {
             List<TrailDto> trails = new ArrayList<>();
-            trails.addAll(trailRepository.divisionBySeason(parkId));
+            trails.addAll(trailRepository.divisionBySeason(parkId, seasonName));
             return trails;
         } catch (DataAccessException e) {
             throw new ApiException(ExceptionEnum.EMPTY_RESULT);
