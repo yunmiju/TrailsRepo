@@ -28,12 +28,7 @@ public class ProgramReservationRepositoryV2 implements ProgramReservationReposit
   }
 
   @Override
-  public ProgramReservation save(ProgramReservation programReservation) {
-    // SqlParameterSource param = new
-    // BeanPropertySqlParameterSource(programReservation);
-    // Number key = jdbcInsert.executeAndReturnKey(param);
-    // programReservation.setId(key.intValue());
-
+  public Integer save(ProgramReservation programReservation) {
     String sql = "insert into program_reservation(program_id, reservation_number, email, ppl) " +
         "values (:programId, :reservationNumber, :email, :ppl)";
     SqlParameterSource param = new MapSqlParameterSource()
@@ -41,8 +36,7 @@ public class ProgramReservationRepositoryV2 implements ProgramReservationReposit
         .addValue("reservationNumber", programReservation.getReservationNumber())
         .addValue("email", programReservation.getEmail())
         .addValue("ppl", programReservation.getPpl());
-    Integer result = template.update(sql, param);
-    return programReservation;
+    return template.update(sql, param);
   }
 
   @Override

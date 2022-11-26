@@ -8,7 +8,7 @@ import ubc.cpsc304.repository.DTO.ReservationRequestDto;
 
 public interface ProgramReservationRepository {
 
-  ProgramReservation save(ProgramReservation programReservation);
+  Integer save(ProgramReservation programReservation);
 
   Integer update(ReservationRequestDto updateParam);
 
