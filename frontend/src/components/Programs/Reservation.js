@@ -70,7 +70,7 @@ function Reservation({ openModal, setModal, setContents, program }) {
       <ModalWrapper>
         <ModalBox>
           <SectionRow>
-            <Header>{reserved ? 'Reservation Number' : Reservation}</Header>
+            <Header>{reserved ? 'Reservation Number' : 'Reservation'}</Header>
             <Close
               onClick={() => {
                 setModal(false);
@@ -104,7 +104,7 @@ function Reservation({ openModal, setModal, setContents, program }) {
               </Section>
               <Section>
                 <SocialLine />
-                <Title>number of people</Title>
+                <Title>Group Size</Title>
                 <EditContainer>
                   <EditInput
                     type="number"

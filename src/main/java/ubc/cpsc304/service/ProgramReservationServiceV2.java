@@ -43,7 +43,10 @@ public class ProgramReservationServiceV2 implements ProgramReservationService {
 
   @Override
   public List<ReservationInfoDto> findByCond(ProgramReservationSearchCond cond) {
-    checkSearchParam(cond);
+    if (cond != null && cond.getEmail() != null && cond.getEmail().length() > 1) {
+      String email = cond.getEmail();
+      return programReservationRepository.findInfoByEmail(email);
+    }
     return programReservationRepository.findAll(cond);
   }
 

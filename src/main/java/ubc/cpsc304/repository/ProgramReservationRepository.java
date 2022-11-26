@@ -19,4 +19,6 @@ public interface ProgramReservationRepository {
   ProgramReservation findByReservationNumber(String reservationNumber);
 
   ReservationInfoDto findInfoByReservationNumber(String reservationNumber);
+
+  List<ReservationInfoDto> findInfoByEmail(String email);
 }

@@ -81,6 +81,23 @@ public class ProgramReservationRepositoryV2 implements ProgramReservationReposit
   }
 
   @Override
+  public List<ReservationInfoDto> findInfoByEmail(String email) {
+    String sql = "select pp.program_id as program_id, pp.reservation_number as reservation_number, " +
+        "filtered.program_name as program_name, pp.email as email, pp.ppl as ppl " +
+        "from program_reservation pp join (select * from program_info p " +
+        "where not exists " +
+        "((select email from program_reservation p1 where p1.email=:email) " +
+        "minus (select p2.email from program_reservation p2 " +
+        "where p2.program_id=p.id))) filtered on pp.id=filtered.id";
+
+    SqlParameterSource param = new MapSqlParameterSource()
+        .addValue("email", email);
+    List<ReservationInfoDto> updated = template.query(sql, param, reservationInfoDtoRowMapper());
+    System.out.println("updated " + updated);
+    return updated;
+  }
+
+  @Override
   public List<ReservationInfoDto> findAll(ProgramReservationSearchCond cond) {
     String reservationNumber = cond.getReservationNumber();
     String email = cond.getEmail();

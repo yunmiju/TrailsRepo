@@ -1,4 +1,10 @@
-import React, { useEffect, useContext, useMemo, useState } from 'react';
+import React, {
+  useEffect,
+  useContext,
+  useMemo,
+  useState,
+  isValidElement,
+} from 'react';
 
 import axios from 'axios';
 import styled from 'styled-components';
@@ -8,6 +14,8 @@ import { CloseOutline } from '@styled-icons/evaicons-outline/CloseOutline';
 import BASE_URL from '../../config';
 import { currDate } from '../../utils/updateCurr';
 import { ParkIdContext } from '../../App';
+import ProgramsIterator from './ProgramsIterator';
+import ReservationIterator from './ReservationIterator';
 
 function Reservation({ openModal, setModal }) {
   const [reservationNumber, setReservationNumber] = useState('');
@@ -24,6 +32,7 @@ function Reservation({ openModal, setModal }) {
   const [programId, setProgramId] = useState('');
   const [programName, setProgramName] = useState('');
   const [isReservationNumValid, setReservationNumberValidity] = useState(false);
+  const [isEmailValid, setEmailValidity] = useState(false);
   const [updateRequestObj, setUpdateRequestObj] = useState({});
   const [editedMsg, setEditedMsg] = useState('');
   const [deletedMsg, setDeletedMsg] = useState('');
@@ -39,18 +48,19 @@ function Reservation({ openModal, setModal }) {
   }, [email, ppl, programId, reservationNumber]);
 
   useEffect(() => {
-    if (isReservationNumValid) {
+    if (isReservationNumValid || isEmailValid) {
       searchReservationApi();
     }
   }, [cond]);
 
   useEffect(() => {
     //
-  }, [reservation]);
+  }, [reservation, email]);
 
   const searchReservationApi = async () => {
+    const url = `${BASE_URL}/reservation/find${cond}`;
     await axios
-      .get(`${BASE_URL}/reservation/find${cond}`)
+      .get(url)
       .then(response => {
         setReservations(response.data);
         setReservation(response.data[0]);
@@ -116,8 +126,12 @@ function Reservation({ openModal, setModal }) {
   };
 
   const onSearchHandler = async () => {
+    console.log('searchhandler');
     if (isReservationNumValid) {
       setCond(`?reservationNumber=${reservationNumber}`);
+    } else if (isEmailValid) {
+      console.log('searchhandler emails');
+      setCond(`?email=${email}`);
     }
   };
 
@@ -148,6 +162,11 @@ function Reservation({ openModal, setModal }) {
       : setReservationNumberValidity(false);
   }, [reservationNumber]);
 
+  useMemo(() => {
+    let text = email.replace(/\s/g, '');
+    let pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    pattern.test(text) ? setEmailValidity(true) : setEmailValidity(false);
+  }, [email]);
   return (
     <>
       <Overlay
@@ -198,7 +217,7 @@ function Reservation({ openModal, setModal }) {
                   />
                 </EditContainer>
               </Section>
-              {found && (
+              {found && reservations.length === 1 ? (
                 <>
                   <Section>
                     <SocialLine />
@@ -209,7 +228,7 @@ function Reservation({ openModal, setModal }) {
                   </Section>
                   <Section>
                     <SocialLine />
-                    <Title>number of people</Title>
+                    <Title>Group Size</Title>
                     <EditContainer>
                       <EditInput
                         type="number"
@@ -222,6 +241,10 @@ function Reservation({ openModal, setModal }) {
                     </EditContainer>
                   </Section>
                 </>
+              ) : reservations.length > 1 ? (
+                <ReservationIterator reservations={reservations} />
+              ) : (
+                <></>
               )}
               <Section>
                 <SocialLine />
