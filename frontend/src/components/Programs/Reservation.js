@@ -70,7 +70,7 @@ function Reservation({ openModal, setModal, setContents, program }) {
       <ModalWrapper>
         <ModalBox>
           <SectionRow>
-            <Header>{reserved ? 'Reservation Number' : Reservation}</Header>
+            <Header>{reserved ? 'Reservation Number' : 'Reservation'}</Header>
             <Close
               onClick={() => {
                 setModal(false);
