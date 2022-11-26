@@ -13,6 +13,7 @@ function ProgramsByPark() {
   // const [parkId, setParkId] = useContext(ParkIdContext);
   const [park, setPark] = useState();
   const [programs, setPrograms] = useState();
+  const [isUpdated, setIsUpdated] = useState(false);
 
   const programApi = async () => {
     await axios
@@ -55,10 +56,24 @@ function ProgramsByPark() {
     }
   }, []);
 
+  useEffect(() => {
+    if (isUpdated) {
+      parkDetailsApi();
+      setIsUpdated(false);
+    }
+  }, [isUpdated]);
+
   return (
     <Main>
       {park && <ParkInfo park={park} />}
-      {programs && <Programs programs={programs} setPrograms={setPrograms} />}
+      {programs && (
+        <Programs
+          programs={programs}
+          setPrograms={setPrograms}
+          isUpdated={isUpdated}
+          setIsUpdated={setIsUpdated}
+        />
+      )}
     </Main>
   );
 }

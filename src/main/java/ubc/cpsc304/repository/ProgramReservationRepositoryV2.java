@@ -28,12 +28,7 @@ public class ProgramReservationRepositoryV2 implements ProgramReservationReposit
   }
 
   @Override
-  public ProgramReservation save(ProgramReservation programReservation) {
-    // SqlParameterSource param = new
-    // BeanPropertySqlParameterSource(programReservation);
-    // Number key = jdbcInsert.executeAndReturnKey(param);
-    // programReservation.setId(key.intValue());
-
+  public Integer save(ProgramReservation programReservation) {
     String sql = "insert into program_reservation(program_id, reservation_number, email, ppl) " +
         "values (:programId, :reservationNumber, :email, :ppl)";
     SqlParameterSource param = new MapSqlParameterSource()
@@ -41,8 +36,7 @@ public class ProgramReservationRepositoryV2 implements ProgramReservationReposit
         .addValue("reservationNumber", programReservation.getReservationNumber())
         .addValue("email", programReservation.getEmail())
         .addValue("ppl", programReservation.getPpl());
-    Integer result = template.update(sql, param);
-    return programReservation;
+    return template.update(sql, param);
   }
 
   @Override
@@ -83,6 +77,23 @@ public class ProgramReservationRepositoryV2 implements ProgramReservationReposit
     SqlParameterSource param = new MapSqlParameterSource()
         .addValue("reservationNumber", reservationNumber);
     ReservationInfoDto updated = template.queryForObject(sql, param, reservationInfoDtoRowMapper());
+    return updated;
+  }
+
+  @Override
+  public List<ReservationInfoDto> findInfoByEmail(String email) {
+    String sql = "select pp.program_id as program_id, pp.reservation_number as reservation_number, " +
+        "filtered.program_name as program_name, pp.email as email, pp.ppl as ppl " +
+        "from program_reservation pp join (select * from program_info p " +
+        "where not exists " +
+        "((select email from program_reservation p1 where p1.email=:email) " +
+        "minus (select p2.email from program_reservation p2 " +
+        "where p2.program_id=p.id))) filtered on pp.id=filtered.id";
+
+    SqlParameterSource param = new MapSqlParameterSource()
+        .addValue("email", email);
+    List<ReservationInfoDto> updated = template.query(sql, param, reservationInfoDtoRowMapper());
+    System.out.println("updated " + updated);
     return updated;
   }
 

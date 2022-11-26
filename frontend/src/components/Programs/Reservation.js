@@ -10,13 +10,7 @@ import BASE_URL from '../../config';
 import { currDate } from '../../utils/updateCurr';
 import { ParkIdContext } from '../../App';
 
-function Reservation({
-  openModal,
-  setModal,
-  setContents,
-  setIsUpdated,
-  program,
-}) {
+function Reservation({ openModal, setModal, setContents, program }) {
   const [reservationNumber, setReservationNumber] = useState(null);
   const [reserved, setReserved] = useState(false);
   const [date, setDate] = useState(currDate);
@@ -76,7 +70,7 @@ function Reservation({
       <ModalWrapper>
         <ModalBox>
           <SectionRow>
-            <Header>Reservation</Header>
+            <Header>{reserved ? 'Reservation Number' : 'Reservation'}</Header>
             <Close
               onClick={() => {
                 setModal(false);
@@ -110,7 +104,7 @@ function Reservation({
               </Section>
               <Section>
                 <SocialLine />
-                <Title>number of people</Title>
+                <Title>Group Size</Title>
                 <EditContainer>
                   <EditInput
                     type="number"

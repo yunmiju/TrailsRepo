@@ -29,7 +29,7 @@ public class ProgramReservationController {
   @PostMapping("save")
   public String makeReservation(@RequestBody ReservationRequestDto param) {
     ProgramReservation reserved = programReservationService.save(param);
-    return "reservation number: " + reserved.getReservationNumber();
+    return reserved.getReservationNumber();
   }
 
   @PatchMapping("update")
@@ -40,7 +40,9 @@ public class ProgramReservationController {
   @GetMapping("find")
   public List<ReservationInfoDto> findReservationByCond(
       @ModelAttribute ProgramReservationSearchCond cond) {
-    return programReservationService.findByCond(cond);
+    List<ReservationInfoDto> result = programReservationService.findByCond(cond);
+    System.out.println("result " + result);
+    return result;
   }
 
   @PutMapping("delete/{reservationNumber}")
