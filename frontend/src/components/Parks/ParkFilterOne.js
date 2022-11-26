@@ -7,8 +7,6 @@ import ParkFilterTwo from './ParkFilterTwo';
 import axios from 'axios';
 import BASE_URL from '../../config';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMountainSun } from '@fortawesome/free-solid-svg-icons';
-
 function ParkFilterOne(props) {
   const { firstFilter, setFirstFilter } = useContext(filterOne);
   const [secondFilters, setSecondFilters] = useState();
@@ -17,7 +15,6 @@ function ParkFilterOne(props) {
   const { count, setCount } = useContext(parkCount);
 
   const secondFilterGetter = async () => {
-    console.log('firstFilter', firstFilters);
     await axios
       .get(`${BASE_URL}/parks/filter/${firstFilter}`, {
         headers: {
@@ -25,9 +22,7 @@ function ParkFilterOne(props) {
         },
       })
       .then(response => {
-        console.log('firstFilter', { firstFilter });
         setSecondFilters(response.data);
-        console.log('secondFilter After', response.data);
       })
       .catch(e => console.log(e));
   };
@@ -50,15 +45,15 @@ function ParkFilterOne(props) {
           variant="contained"
           disableElevation
         >
-          Reset
+          <Span>RESET</Span>
           <FontAwesomeIcon icon={faArrowRotateBackward} />
         </Button>
-        {(firstFilter == 'init') | (firstFilter == '------') ? (
+        {(firstFilter === 'init') | (firstFilter === '------') ? (
           <EmptyParkFilterTwo />
         ) : (
           <ParkFilterTwo secondFilters={secondFilters} />
         )}
-        <select id="firstFilter" onChange={handleChange}>
+        <Select id="firstFilter" onChange={handleChange}>
           <option>------</option>
           {firstFilters.map(filter => (
             <option key={filter} value={filter}>
@@ -66,8 +61,8 @@ function ParkFilterOne(props) {
               {filter}
             </option>
           ))}
-        </select>
-        <span> {count} </span>
+        </Select>
+        <Span> RESULT : ( {count} ) </Span>
       </Section>
     </Wrapper>
   );
@@ -96,6 +91,10 @@ const Button = styled.button`
     opacity: 0.5;
     background: var(--button-bg-color, #025ce2);
   }
+`;
+
+const Select = styled.select`
+  margin-right: 10px;
 `;
 
 const Section = styled.section`
@@ -132,4 +131,9 @@ const select = styled.div`
   flex-direction: column;
 `;
 
+const Span = styled.span`
+  font-size: 15px;
+  font-color: #025ce2;
+  font-family: 'Source-Sans-Pro', sans-serif;
+`;
 export default ParkFilterOne;

@@ -144,6 +144,10 @@ const Contents = styled.div`
   align-items: center;
   flex-direction: column;
   max-height: 800px;
+  span {
+    font-family: 'Source-Sans-Pro', sans-serif;
+    font-weight: 600;
+  }
 `;
 
 export default ParksAll;

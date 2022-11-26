@@ -40,7 +40,9 @@ public class ProgramReservationController {
   @GetMapping("find")
   public List<ReservationInfoDto> findReservationByCond(
       @ModelAttribute ProgramReservationSearchCond cond) {
-    return programReservationService.findByCond(cond);
+    List<ReservationInfoDto> result = programReservationService.findByCond(cond);
+    System.out.println("result " + result);
+    return result;
   }
 
   @PutMapping("delete/{reservationNumber}")

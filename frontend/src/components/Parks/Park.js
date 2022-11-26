@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faPersonHiking,
-  faMountainSun,
-} from '@fortawesome/free-solid-svg-icons';
+import { faPersonHiking, faMountain } from '@fortawesome/free-solid-svg-icons';
 import styled from 'styled-components';
 import ParkImage from './ParkImage';
 import axios from 'axios';
@@ -12,6 +9,8 @@ function Park(props) {
   const { park } = props;
   const [provinceName, setProvinceName] = useState();
   const [countryName, setCountryName] = useState();
+  const [provinceCount, setProvinceCount] = useState({ BC: 0 });
+
   const provinceGetter = async () => {
     await axios
       .get(`${BASE_URL}/parks/provinceName/${park.provinceId}`, {
@@ -21,7 +20,7 @@ function Park(props) {
       })
       .then(response => {
         setProvinceName(response.data);
-        countryGetter();
+        provinceCountGetter();
       })
       .catch(e => console.log(e));
   };
@@ -35,6 +34,7 @@ function Park(props) {
       })
       .then(response => {
         setCountryName(response.data);
+        provinceCountGetter();
       })
       .catch(e => console.log(e));
   };
@@ -42,6 +42,21 @@ function Park(props) {
   useEffect(() => {
     provinceGetter();
   }, []);
+
+  const provinceCountGetter = async () => {
+    await axios
+      .get(`${BASE_URL}/parks/filter/count/${park.provinceId}`, {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+        },
+      })
+      .then(response => {
+        setProvinceCount(response.data);
+        console.log(response.data);
+        countryGetter();
+      })
+      .catch(e => console.log(e));
+  };
 
   return (
     <Wrapper>
@@ -77,7 +92,9 @@ function Park(props) {
                 <span className="key">Country: </span>
                 <span className="val">{countryName}</span>
                 <span className="key">Province: </span>
-                <span className="val">{provinceName}</span>
+                <span className="val">
+                  {provinceName} : (curruntly registered {`${provinceCount}`})
+                </span>
               </Details>
               <ButtonDetails>
                 <Button
@@ -104,7 +121,7 @@ function Park(props) {
                 >
                   Browse Trails
                   <FontAwesomeIcon
-                    icon={faMountainSun}
+                    icon={faMountain}
                     size="2x"
                     className="hover:text-red-500"
                     shake
@@ -125,7 +142,7 @@ const Button = styled.button`
   width: 60%;
   justify-content: center;
   cursor: pointer;
-  font-family: 'Noto Sans KR', sans-serif;
+  font-family: 'Source-Sans-Pro', sans-serif;
   font-size: var(--button-font-size, 1rem);
   padding: var(--button-padding, 12px 16px);
   border-radius: var(--button-radius, 8px);
@@ -135,7 +152,7 @@ const Button = styled.button`
   &:active,
   &:hover,
   &:focus {
-    background: var(--button-hover-bg-color, #025ce2);
+    background: var(--button-hover-bg-color, #23aeab);
   }
   &:disabled {
     cursor: default;
@@ -189,8 +206,8 @@ const Title = styled.title`
   display: flex;
   flex-direction: column;
   span {
-    // padding-top: 15px;
     font-size: 28px;
+    color: #05638e;
     font-weight: 600;
   }
 `;
