@@ -34,7 +34,7 @@ function Park(props) {
       })
       .then(response => {
         setCountryName(response.data);
-        provinceCountGetter();
+        // provinceCountGetter();
       })
       .catch(e => console.log(e));
   };
