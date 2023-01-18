@@ -6,6 +6,8 @@ values (14.0, 'C', 5.7)
 select *
 from dual;
 
+
+
 insert all
     into Trail_info(trail_name, park_id, difficulty, distance, trail_description)
 values ('Takakkaw Falls Trail', 103, 'A', 1.3,
